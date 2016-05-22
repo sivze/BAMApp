@@ -1,28 +1,13 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# generated files
+bin/
+obj/
 
-# Precompiled Headers
-*.gch
-*.pch
+# Packagesused by the app
+packages/
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+# hidden files
+.git/
+.vs/
 
-# Fortran module files
-*.mod
+# Project Files
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
