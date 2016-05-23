@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BAMApp.Views.LoginPage">
+
+  <Grid>
+    <Image x:Name="imgBg" Aspect="AspectFill" Opacity="0.3"/>
+
+    <StackLayout Padding="20,40,20,40">
+      
+      <Label Text="BAM&#x0a;App"
+             HorizontalTextAlignment="Center"
+             VerticalOptions="Start"
+             Style="{StaticResource appTitleTextSize}"/>
+
+      <StackLayout VerticalOptions="End" Spacing="20" Padding="0,40,0,0">
+        <Entry Placeholder="Username"
+               Text="{Binding Username}"
+               Style="{StaticResource entryStyle}"/>
+        <Entry Placeholder="Password"
+               Text="{Binding Password}"
+               IsPassword="true"
+               Style="{StaticResource entryStyle}"/>
+
+        <Button Text="Sign In"
+               Style="{StaticResource appCustomButton}"
+               BackgroundColor="{StaticResource appThemeColor}"
+               Command="{Binding LoginCommand}"/>
+
+        <Button Text="Sign Up"
+                Style="{StaticResource appCustomButton}"
+                BackgroundColor="Gray"/>
+
+        <Button Text="Sign Up with Facebook"
+                Style="{StaticResource appCustomButton}"
+                FontSize="15"
+                FontAttributes="None"/>
+      </StackLayout>
+    </StackLayout>
+  </Grid>
+
+</ContentPage>
