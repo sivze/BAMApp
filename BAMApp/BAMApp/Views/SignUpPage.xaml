@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BAMApp.Views.SignUpPage"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+  <StackLayout>
+    <Grid BackgroundColor="{StaticResource ThemeColor}" HeightRequest="30" Padding="10">
+      <Label Text="Sign Up" FontSize="{StaticResource BigTextSize}" FontAttributes="Bold" VerticalOptions="Center"/>
+    </Grid>
+
+    <ScrollView>
+      <StackLayout VerticalOptions="Center" Spacing="20" Padding="20">
+
+        <Entry Placeholder="Full Name"
+               Text="{Binding FullName}"
+               Style="{StaticResource CustomEntryStyle}"
+               Keyboard="Text"/>
+
+        <Entry Placeholder="Phone Number"
+               Text="{Binding PhoneNumber}"
+               Style="{StaticResource CustomEntryStyle}"
+               Keyboard="Telephone"/>
+
+        <Entry Placeholder="Email"
+               Text="{Binding Email}"
+               Style="{StaticResource CustomEntryStyle}"
+               Keyboard="Email"/>
+
+        <Entry Placeholder="Zip Code"
+               Text="{Binding ZipCode}"
+               Style="{StaticResource CustomEntryStyle}"
+               Keyboard="Numeric"/>
+
+        <Picker Title="Gender" SelectedIndex="{Binding Gender}" HorizontalOptions="FillAndExpand">
+          <Picker.Items>
+            <x:String>Male</x:String>
+            <x:String>Female</x:String>
+          </Picker.Items>
+        </Picker>
+
+        <StackLayout>
+          <Frame Padding="5,0,0,0">
+            <Label Text="Date of Birth" FontSize="{StaticResource PrimaryTextSize}" />
+          </Frame>
+
+          <DatePicker VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}">
+            <DatePicker.Format>MM/dd/yyyy</DatePicker.Format>
+            <DatePicker.MinimumDate>
+              <sys:DateTime x:FactoryMethod="Parse">
+                <x:Arguments>
+                  <x:String>Jan 1 1950</x:String>
+                </x:Arguments>
+              </sys:DateTime>
+            </DatePicker.MinimumDate>
+            <DatePicker.MaximumDate>
+              <sys:DateTime x:FactoryMethod="Parse">
+                <x:Arguments>
+                  <x:String>Dec 31 2000</x:String>
+                </x:Arguments>
+              </sys:DateTime>
+            </DatePicker.MaximumDate>
+          </DatePicker>
+        </StackLayout>
+
+        <Button Text="Sign Up"
+                Style="{StaticResource CustomButton}"
+                BackgroundColor="{StaticResource SecondaryColor}"/>
+
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+</ContentPage>

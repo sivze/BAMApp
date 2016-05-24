@@ -4,35 +4,38 @@
              x:Class="BAMApp.Views.LoginPage">
 
   <Grid>
-    <Image x:Name="imgBg" Aspect="AspectFill" Opacity="0.3"/>
+    <Image x:Name="imgBG" Aspect="AspectFill" Opacity="0.3"/>
 
     <StackLayout Padding="20,40,20,40">
       
-      <Label Text="BAM&#x0a;App"
+      <Label Text="BAM&#x0a;APP"
              HorizontalTextAlignment="Center"
              VerticalOptions="Start"
-             Style="{StaticResource appTitleTextSize}"/>
+             FontSize="{StaticResource HugeTextSize}"
+             FontAttributes="Bold"/>
 
       <StackLayout VerticalOptions="End" Spacing="20" Padding="0,40,0,0">
+        
         <Entry Placeholder="Username"
                Text="{Binding Username}"
-               Style="{StaticResource entryStyle}"/>
+               Style="{StaticResource CustomEntryStyle}"/>
+        
         <Entry Placeholder="Password"
                Text="{Binding Password}"
                IsPassword="true"
-               Style="{StaticResource entryStyle}"/>
+               Style="{StaticResource CustomEntryStyle}"/>
 
         <Button Text="Sign In"
-               Style="{StaticResource appCustomButton}"
-               BackgroundColor="{StaticResource appThemeColor}"
-               Command="{Binding LoginCommand}"/>
+               Style="{StaticResource CustomButton}"
+               BackgroundColor="{StaticResource ThemeColor}"
+               Command="{Binding SignInCommand}"/>
 
         <Button Text="Sign Up"
-                Style="{StaticResource appCustomButton}"
-                BackgroundColor="Gray"/>
+                Style="{StaticResource CustomButton}"
+                BackgroundColor="{StaticResource SecondaryColor}"/>
 
         <Button Text="Sign Up with Facebook"
-                Style="{StaticResource appCustomButton}"
+                Style="{StaticResource CustomButton}"
                 FontSize="15"
                 FontAttributes="None"/>
       </StackLayout>

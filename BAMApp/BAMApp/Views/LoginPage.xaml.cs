@@ -13,7 +13,7 @@ namespace BAMApp.Views
         public LoginPage()
         {
             InitializeComponent();
-            imgBg.Source = ImageSource.FromResource("BAMApp.Assets.Images.LoginPageBG.jpg");
+            imgBG.Source = ImageSource.FromResource("BAMApp.Assets.Images.LoginPageBG.jpg");
         }
     }
 }

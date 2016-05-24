@@ -1,30 +1,34 @@
 ﻿<Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BAMApp.App">
+             x:Class="BAMApp.App"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
   <Application.Resources>
     <ResourceDictionary>
       
       <!--Color-->
-      <Color x:Key="appThemeColor">#77D065</Color>
+      <Color x:Key="ThemeColor">#77D065</Color>
+      <Color x:Key="SecondaryColor">#FF9800</Color>
+
+      <!--Text Sizes-->
+      <sys:Double x:Key="PrimaryTextSize">18</sys:Double>
+      <sys:Double x:Key="BigTextSize">24</sys:Double>
+      <sys:Double x:Key="HugeTextSize">56</sys:Double>
 
       <!--View Styles-->
+      
       <!--Entry-->
-      <Style x:Key="entryStyle" TargetType="Entry">
-        <Setter Property="FontSize" Value="25" />
+      <Style x:Key="CustomEntryStyle" TargetType="Entry">
+        <Setter Property="FontSize" Value="{StaticResource PrimaryTextSize}"/>
       </Style>
 
-      <!--Label Sizes-->
-      <Style x:Key="appTitleTextSize" TargetType="Label">
-        <Setter Property="FontSize" Value="60"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
-      </Style>
+      <!--Labels-->
       
       <!--Buttons-->
-      <Style x:Key="appCustomButton" TargetType="Button">
+      <Style x:Key="CustomButton" TargetType="Button">
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="FontSize" Value="{StaticResource PrimaryTextSize}"/>
       </Style>
       
     </ResourceDictionary>
