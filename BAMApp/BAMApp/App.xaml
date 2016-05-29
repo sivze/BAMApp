@@ -8,10 +8,11 @@
       
       <!--Color-->
       <Color x:Key="ThemeColor">#7BB139</Color>
+      <Color x:Key="ThemeDarkColor">#6b9a32</Color>
       <Color x:Key="SecondaryColor">#FF9800</Color>
       <Color x:Key="FacebookColor">#3b5998</Color>
 
-      <Color x:Key="PrimaryBackgroundColor">White</Color>
+      <Color x:Key="ThemeBackgroundColor">White</Color>
       
       <Color x:Key="ThemeTextColor">White</Color>
       <Color x:Key="PrimaryTextColor">Gray</Color>

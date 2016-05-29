@@ -4,7 +4,6 @@
   <style name="AppTheme" parent="android:Theme.Material">
     <item name="android:colorPrimary">@color/colorPrimary</item>
     <item name="android:statusBarColor">@color/colorPrimary</item>
-    
   </style>
 
 </resources>

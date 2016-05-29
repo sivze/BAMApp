@@ -22,21 +22,21 @@ namespace BAMApp.Views
             var masterPageItems = new List<MasterPageItem>();
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "Survey List",
-                IconSource = "contacts.png",
+                Title = "Survey",
+                IconSource = "todo.png",
                 TargetType = typeof(SurveyListPage)
             });
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "Discounts Earned",
+                Title = "Coupons",
                 IconSource = "todo.png",
-                //TargetType = typeof(TodoListPage)
+                TargetType = typeof(UserProfilePage)
             });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Account",
                 IconSource = "reminders.png",
-                //TargetType = typeof(ReminderPage)
+                TargetType = typeof(UserProfilePage)
             });
 
             listView.ItemsSource = masterPageItems;

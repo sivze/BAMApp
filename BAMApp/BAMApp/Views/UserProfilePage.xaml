@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BAMApp.Views.UserProfilePage"
+             Title="User Profile">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    
+    <StackLayout BackgroundColor="{StaticResource ThemeColor}"
+                 Padding="20">
+      <Button BorderRadius="30"
+              HeightRequest="60"
+              WidthRequest="60"
+              BackgroundColor="{StaticResource SecondaryColor}"
+              HorizontalOptions="Center"
+              VerticalOptions="Start" />
+      <Label Text="Sivakumar Chellamuthu"
+             Style="{StaticResource ThemeText}"
+             FontSize="{StaticResource BigTextSize}"
+             HorizontalTextAlignment="Center"/>
+      <Label Text="Male"
+             Style="{StaticResource ThemeText}"
+             HorizontalTextAlignment="Center"/>
+      <Label Text="01/01/1991"
+             Style="{StaticResource ThemeText}"
+             HorizontalTextAlignment="Center"/>
+    </StackLayout>
+
+    <ScrollView Grid.Row="1" VerticalOptions="Center">
+      <StackLayout Padding="20" Spacing="20">
+        
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Number:"
+                 Style="{StaticResource ThemeText}"
+                 HorizontalOptions="Start"
+                 VerticalOptions="Center"
+                 WidthRequest="100"/>
+          <Entry Text="25"
+                 Style="{StaticResource CustomEntryStyle}"
+                 HorizontalOptions="FillAndExpand"
+                 Keyboard="Telephone"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Email:"
+                 Style="{StaticResource ThemeText}"
+                 HorizontalOptions="Start"
+                 VerticalOptions="Center"
+                 WidthRequest="100"/>
+          <Entry Text="k@k.com"
+                 Style="{StaticResource CustomEntryStyle}"
+                 HorizontalOptions="FillAndExpand"
+                 Keyboard="Email"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+          <Label Text="Zip:"
+                 Style="{StaticResource ThemeText}"
+                 HorizontalOptions="Start"
+                 VerticalOptions="Center"
+                 WidthRequest="100"/>
+          <Entry Text="434543"
+                 Style="{StaticResource CustomEntryStyle}"
+                 HorizontalOptions="FillAndExpand"
+                 Keyboard="Numeric"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="Center">
+          <Button Text="Update"
+                  Style="{StaticResource CustomButton}"/>
+          <Button Text="Delete"
+                  Style="{StaticResource CustomButton}"
+                  HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+      </StackLayout>
+    </ScrollView>
+  </Grid>
+</ContentPage>

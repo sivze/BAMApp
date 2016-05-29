@@ -6,6 +6,7 @@
 			       Title="Navigation"
              Icon="hamburger.png"
              BackgroundColor="{StaticResource ThemeColor}">
+  
   <ContentPage.Content>
     <StackLayout VerticalOptions="FillAndExpand">
       <StackLayout HorizontalOptions="CenterAndExpand">
@@ -17,10 +18,12 @@
                HorizontalTextAlignment="Center"
                 Style="{StaticResource ThemeText}"/>
       </StackLayout>
+      
       <ListView x:Name="listView"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
-                BackgroundColor="{StaticResource PrimaryBackgroundColor}">
+                SeparatorColor="{StaticResource PrimaryTextColor}"
+                BackgroundColor="{StaticResource ThemeBackgroundColor}">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ImageCell Text="{Binding Title}" 
