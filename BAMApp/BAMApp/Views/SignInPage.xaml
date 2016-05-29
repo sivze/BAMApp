@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BAMApp.Views.SignInPage">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <Image x:Name="imgBG"
+           Aspect="AspectFill"
+           Opacity="0.3"
+           Grid.RowSpan="2"/>
+
+    <StackLayout VerticalOptions="Center"
+                 Padding="0,20,0,0">
+
+      <Label Text="BAM&#x0a;claim it"
+             HorizontalTextAlignment="Center"
+             VerticalOptions="Start"
+             FontSize="{StaticResource HugeTextSize}"
+             FontAttributes="Bold"/>
+
+    </StackLayout>
+
+    <StackLayout VerticalOptions="End"
+                 Spacing="20"
+                 Padding="20"
+                 Grid.Row="1">
+
+      <Entry Placeholder="Email"
+             Text="{Binding Email, Mode=TwoWay}"
+             Style="{StaticResource CustomEntryStyle}"/>
+
+      <Entry Placeholder="Password"
+             Text="{Binding Password, Mode=TwoWay}"
+             IsPassword="true"
+             Style="{StaticResource CustomEntryStyle}"/>
+
+      <Button Text="Sign In"
+             Style="{StaticResource CustomButton}"
+             BackgroundColor="{StaticResource ThemeColor}"
+             Command="{Binding SignInCommand}"/>
+
+      <Button Text="Sign Up"
+              Style="{StaticResource CustomButton}"
+              BackgroundColor="{StaticResource SecondaryColor}"
+              Command="{Binding SignUpCommand}"/>
+
+      <Button Text="Sign Up with Facebook"
+              Style="{StaticResource CustomButton}"
+              BackgroundColor="{StaticResource FacebookColor}"
+              Command="{Binding SignUpFBCommand}"/>
+    </StackLayout>
+
+  </Grid>
+
+</ContentPage>

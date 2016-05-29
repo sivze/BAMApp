@@ -15,7 +15,7 @@ namespace BAMApp
         {
             // The root page of your application
             InitializeComponent();
-            MainPage = new SignUpPage();
+            MainPage = new SignInPage();
         }
 
         protected override void OnStart()

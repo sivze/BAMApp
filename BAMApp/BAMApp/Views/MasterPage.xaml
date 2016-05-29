@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BAMApp.Views.MasterPage"
+             Padding="0,20,0,0"
+			       Title="Navigation"
+             Icon="hamburger.png"
+             BackgroundColor="{StaticResource ThemeColor}">
+  <ContentPage.Content>
+    <StackLayout VerticalOptions="FillAndExpand">
+      <StackLayout HorizontalOptions="CenterAndExpand">
+        <Image Source="icon.png" />
+        <Label Text="Sivakumar" 
+               HorizontalTextAlignment="Center"
+               Style="{StaticResource ThemeText}"/>
+        <Label Text="4 coupons earned" 
+               HorizontalTextAlignment="Center"
+                Style="{StaticResource ThemeText}"/>
+      </StackLayout>
+      <ListView x:Name="listView"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="Default"
+                BackgroundColor="{StaticResource PrimaryBackgroundColor}">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ImageCell Text="{Binding Title}" 
+                       TextColor="{StaticResource PrimaryTextColor}" 
+                       ImageSource="{Binding IconSource}"/>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      <Frame HorizontalOptions="Center" VerticalOptions="End">
+        <Label Text="Logout" 
+               HorizontalTextAlignment="Center"
+               Style="{StaticResource ThemeText}"/>
+      </Frame>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

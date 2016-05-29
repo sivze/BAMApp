@@ -8,12 +8,12 @@ using Xamarin.Forms;
 
 namespace BAMApp.Views
 {
-    public partial class LoginPage : ContentPage
+    public partial class SurveyListPage : ContentPage
     {
-        public LoginPage()
+        public SurveyListPage()
         {
             InitializeComponent();
-            imgBG.Source = ImageSource.FromResource("BAMApp.Assets.Images.LoginPageBG.jpg");
+            
         }
     }
 }

@@ -6,14 +6,17 @@
 
   <StackLayout>
     <Grid BackgroundColor="{StaticResource ThemeColor}" HeightRequest="30" Padding="10">
-      <Label Text="Sign Up" FontSize="{StaticResource BigTextSize}" FontAttributes="Bold" VerticalOptions="Center"/>
+      <Label Text="Sign Up" 
+             FontSize="{StaticResource BigTextSize}" 
+             FontAttributes="Bold" 
+             VerticalOptions="Center"/>
     </Grid>
 
     <ScrollView>
       <StackLayout VerticalOptions="Center" Spacing="20" Padding="20">
 
-        <Entry Placeholder="Full Name"
-               Text="{Binding FullName}"
+        <Entry Placeholder="Name"
+               Text="{Binding Name}"
                Style="{StaticResource CustomEntryStyle}"
                Keyboard="Text"/>
 
@@ -41,7 +44,8 @@
 
         <StackLayout>
           <Frame Padding="5,0,0,0">
-            <Label Text="Date of Birth" FontSize="{StaticResource PrimaryTextSize}" />
+            <Label Text="Date of Birth" 
+                   Style="{StaticResource ThemeText}"/>
           </Frame>
 
           <DatePicker VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}">

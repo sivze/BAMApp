@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="AppTheme" parent="android:Theme.Material">
+    <item name="android:colorPrimary">@color/colorPrimary</item>
+    <item name="android:statusBarColor">@color/colorPrimary</item>
+    
+  </style>
+
+</resources>

@@ -7,13 +7,19 @@
     <ResourceDictionary>
       
       <!--Color-->
-      <Color x:Key="ThemeColor">#77D065</Color>
+      <Color x:Key="ThemeColor">#7BB139</Color>
       <Color x:Key="SecondaryColor">#FF9800</Color>
+      <Color x:Key="FacebookColor">#3b5998</Color>
+
+      <Color x:Key="PrimaryBackgroundColor">White</Color>
+      
+      <Color x:Key="ThemeTextColor">White</Color>
+      <Color x:Key="PrimaryTextColor">Gray</Color>
 
       <!--Text Sizes-->
       <sys:Double x:Key="PrimaryTextSize">18</sys:Double>
       <sys:Double x:Key="BigTextSize">24</sys:Double>
-      <sys:Double x:Key="HugeTextSize">56</sys:Double>
+      <sys:Double x:Key="HugeTextSize">32</sys:Double>
 
       <!--View Styles-->
       
@@ -23,11 +29,20 @@
       </Style>
 
       <!--Labels-->
+      <Style x:Key="ThemeText" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource PrimaryTextSize}"/>
+        <Setter Property="TextColor" Value="{StaticResource ThemeTextColor}"/>
+      </Style>
+      
+      <Style x:Key="PrimaryText" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource PrimaryTextSize}"/>
+        <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}"/>
+      </Style>
       
       <!--Buttons-->
       <Style x:Key="CustomButton" TargetType="Button">
-        <Setter Property="TextColor" Value="White"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource ThemeTextColor}"/>
+        <Setter Property="FontAttributes" Value="None"/>
         <Setter Property="FontSize" Value="{StaticResource PrimaryTextSize}"/>
       </Style>
       

@@ -17,12 +17,6 @@ namespace BAMApp.Views
             List<string> genderItems = new List<string>();
             genderItems.Add("Male");
             genderItems.Add("Female");
-
-            //MyRadioGroup.ItemsSource = genderItems;
-            //var btn = new BindableRadioGroup
-            //{
-            //    ItemsSource = genderItems
-            //};
             
         }
     }
