@@ -8,7 +8,8 @@
       <Label Text="You are at Forever 21&#x0a;at Sandy, Utah"
              VerticalOptions="Center"
              HorizontalTextAlignment="Center"/>
-      <Button Text="Take Survey now"/>
+      <Button Text="Take Survey now" 
+              Clicked="OnTakeSurveyClicked"/>
       <Label Text="Receive 15% discount"
              VerticalOptions="Center"
              HorizontalTextAlignment="Center"/>

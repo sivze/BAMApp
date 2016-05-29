@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BAMApp.Views.SurveyPage"
+             Title="Survey">
+  <ScrollView>
+    <StackLayout Padding="20">
+      <Label Text="Where you greeted by a sales associate?"/>
+      <Switch IsToggled="{Binding isOn}"
+              HorizontalOptions="Center"/>
+
+      <Label Text="Whether store's appearance acceptable?"/>
+      <Switch IsToggled="{Binding isOn}"
+              HorizontalOptions="Center"/>
+
+      <Label Text="On a scale from 1-10 how would you rate the customer service?"/>
+      <Label x:Name="lblRating"
+             HorizontalOptions="Center"/>
+      <Slider x:Name="sliderRating"
+              Minimum="0"
+              Maximum="10"
+              Value="5"
+              ValueChanged="OnValueChanged"/>
+
+      <Label Text="What did you purchase, if anything?"/>
+      <Frame Padding="5">
+        <Editor BackgroundColor="{StaticResource ThemeBackgroundColor}"
+                TextColor="{StaticResource PrimaryTextColor}"
+                HeightRequest="100"/>
+      </Frame>
+      <Button Text="Submit"
+              Clicked="OnSubmitClicked"/>
+    </StackLayout>
+  </ScrollView>
+</ContentPage>

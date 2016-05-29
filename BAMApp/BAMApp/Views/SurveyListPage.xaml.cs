@@ -13,7 +13,12 @@ namespace BAMApp.Views
         public SurveyListPage()
         {
             InitializeComponent();
-            
+
+        }
+
+        void OnTakeSurveyClicked(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new NavigationPage(new SurveyPage()));
         }
     }
 }
