@@ -30,7 +30,7 @@ namespace BAMApp.Views
             {
                 Title = "Coupons",
                 IconSource = "todo.png",
-                TargetType = typeof(UserProfilePage)
+                TargetType = typeof(CouponsPage)
             });
             masterPageItems.Add(new MasterPageItem
             {
