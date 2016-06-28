@@ -6,36 +6,48 @@
 
   <StackLayout>
     <Grid BackgroundColor="{StaticResource ThemeColor}" HeightRequest="30" Padding="10">
-      <Label Text="Sign Up" 
-             FontSize="{StaticResource BigTextSize}" 
-             FontAttributes="Bold" 
+      <Label Text="Sign Up"
+             Style="{StaticResource ThemeText}"
+             FontAttributes="Bold"
              VerticalOptions="Center"/>
     </Grid>
 
     <ScrollView>
       <StackLayout VerticalOptions="Center" Spacing="20" Padding="20">
 
-        <Entry Placeholder="Name"
-               Text="{Binding Name}"
+        <Entry Placeholder="Name*"
+               Text="{Binding Name, Mode=TwoWay}"
                Style="{StaticResource CustomEntryStyle}"
                Keyboard="Text"/>
 
-        <Entry Placeholder="Phone Number"
-               Text="{Binding PhoneNumber}"
-               Style="{StaticResource CustomEntryStyle}"
-               Keyboard="Telephone"/>
-
-        <Entry Placeholder="Email"
-               Text="{Binding Email}"
+        <Entry Placeholder="Email*"
+               Text="{Binding Email, Mode=TwoWay}"
                Style="{StaticResource CustomEntryStyle}"
                Keyboard="Email"/>
 
+        <Entry Placeholder="Password*"
+                       Text="{Binding Password, Mode=TwoWay}"
+                       IsPassword="true"
+                       Style="{StaticResource CustomEntryStyle}"/>
+
+        <Entry Placeholder="ConfirmPassword*"
+              Text="{Binding ConfirmPassword, Mode=TwoWay}"
+              IsPassword="true"
+              Style="{StaticResource CustomEntryStyle}"/>
+
+        <Entry Placeholder="Phone Number"
+             Text="{Binding PhoneNumber, Mode=TwoWay}"
+             Style="{StaticResource CustomEntryStyle}"
+             Keyboard="Telephone"/>
+
         <Entry Placeholder="Zip Code"
-               Text="{Binding ZipCode}"
+               Text="{Binding ZipCode, Mode=TwoWay}"
                Style="{StaticResource CustomEntryStyle}"
                Keyboard="Numeric"/>
 
-        <Picker Title="Gender" SelectedIndex="{Binding Gender}" HorizontalOptions="FillAndExpand">
+        <Picker Title="Gender*" 
+                SelectedIndex="{Binding GenderIndex, Mode=TwoWay}" 
+                HorizontalOptions="FillAndExpand">
           <Picker.Items>
             <x:String>Male</x:String>
             <x:String>Female</x:String>
@@ -44,11 +56,11 @@
 
         <StackLayout>
           <Frame Padding="5,0,0,0">
-            <Label Text="Date of Birth" 
+            <Label Text="Date of Birth*"
                    Style="{StaticResource ThemeText}"/>
           </Frame>
 
-          <DatePicker VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}">
+          <DatePicker VerticalOptions="CenterAndExpand" Date="{Binding Birthday, Mode=TwoWay}">
             <DatePicker.Format>MM/dd/yyyy</DatePicker.Format>
             <DatePicker.MinimumDate>
               <sys:DateTime x:FactoryMethod="Parse">
@@ -69,7 +81,8 @@
 
         <Button Text="Sign Up"
                 Style="{StaticResource CustomButton}"
-                BackgroundColor="{StaticResource SecondaryColor}"/>
+                BackgroundColor="{StaticResource SecondaryColor}"
+        Command="{Binding SignUpCommand}"/>
 
       </StackLayout>
     </ScrollView>

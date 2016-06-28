@@ -1,6 +1,12 @@
-﻿using BAMApp.Views;
+﻿using BAMApp.Helpers;
+using BAMApp.Interfaces;
+using BAMApp.Models;
+using BAMApp.Services;
+using BAMApp.Views;
+using Microsoft.WindowsAzure.MobileServices;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +20,15 @@ namespace BAMApp.ViewModels
         #region Fields
         private string email;
         private string password;
-        private INavigation navigation;
+        private string loadingMessage;
+        private bool isBusy = false;
+
+        private SignInPage signInPage;
 
         private ICommand signInCommand;
         private ICommand signUpCommand;
         private ICommand signUpFBCommand;
+
         #endregion
 
         #region Properties
@@ -46,7 +56,31 @@ namespace BAMApp.ViewModels
                 }
             }
         }
-
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                if (isBusy != value)
+                {
+                    isBusy = value;
+                    OnPropertyChanged("IsBusy");
+                }
+            }
+        }
+        public string LoadingMessage
+        {
+            get { return loadingMessage; }
+            set
+            {
+                if (loadingMessage != value)
+                {
+                    loadingMessage = value;
+                    OnPropertyChanged("LoadingMessage");
+                }
+            }
+        }
+        
         public ICommand SignInCommand
         {
             get
@@ -86,25 +120,97 @@ namespace BAMApp.ViewModels
         #endregion
 
         #region Constructor
-        public SignInViewModel(INavigation navigation)
+        public SignInViewModel()
         {
-            this.navigation = navigation;
+
         }
         #endregion
 
         #region Methods
+        public async void Initialize(SignInPage signInPage)
+        {
+            this.signInPage = signInPage;
+            Password = "";
+        }
+
         public async void SignIn(object obj)
         {
-            await navigation.PushModalAsync(new HomePage());
+            try
+            {
+                LoadingMessage = "Signing In";
+                IsBusy = true;
+
+                //check whether the user exists in Azure table 
+                //and get user id and save in local settings for single-sign on
+                if (email != null && email.Contains("@"))
+                {
+                    BAMAppUser user = await ServiceLocator.AzureService.GetByEmail(email);
+                    if (user != null)
+                    {
+                        if (user.Password == password)
+                        {
+                            Settings.UserId = user.Id;
+                            await TakeToHomePage();
+                        }
+                        else
+                            await signInPage.DisplayAlert("Sorry", "Invalid password!", "Try again");
+                    }
+                    else
+                        await signInPage.DisplayAlert("Sorry", "Invalid email id!", "Try again");
+                }
+                else
+                    await signInPage.DisplayAlert("Sorry", "Invalid email id!", "Enter correct email id");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("OH NO!" + ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         public async void SignUp(object obj)
         {
-            await navigation.PushModalAsync(new SignUpPage());
+            await signInPage.Navigation.PushAsync(new SignUpPage());
         }
         public async void SignUpFB(object obj)
         {
-            //await navigation.PushModalAsync(new HomePage());
+            if (IsBusy)
+                return;
+            try
+            {
+                LoadingMessage = "Signing In";
+                IsBusy = true;
+
+                var user = await DependencyService.Get<IAuthentication>().LoginAsync(
+                       ServiceLocator.AzureService.MobileService,
+                       MobileServiceAuthenticationProvider.Facebook);
+
+                //var extraInfo = await ServiceLocator.AzureService.GetUserData();
+
+                //string email = extraInfo.Message.Email;
+                
+                if (Settings.IsLoggedIn)
+                    await TakeToHomePage();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("OH NO!" + ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
+
+        public async Task TakeToHomePage()
+        {
+            signInPage.Navigation.InsertPageBefore(new HomePage(), signInPage);
+            await signInPage.Navigation.PopAsync();
+        }
+
         #endregion
     }
+
 }

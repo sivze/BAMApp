@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BAMApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,9 @@ namespace BAMApp.Views
         {
             InitializeComponent();
 
-            List<string> genderItems = new List<string>();
-            genderItems.Add("Male");
-            genderItems.Add("Female");
+            UserViewModel vm = ViewModelLocator.UserViewModel;
+            vm.Initialize(this);
+            BindingContext = vm;
             
         }
     }

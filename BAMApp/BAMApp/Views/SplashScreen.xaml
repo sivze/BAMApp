@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BAMApp.Views.SplashScreen">
+
+  <Grid>
+
+    <Image x:Name="imgBG"
+               Aspect="AspectFill"
+               Opacity="0.3"
+               Source="ladyWithCart.jpg"/>
+    
+    <StackLayout VerticalOptions="Center"
+                 HorizontalOptions="Center">
+      
+      <ActivityIndicator Color="{StaticResource ThemeBackgroundColor}"
+                         IsRunning="True"/>
+
+      <Label Text="Initializing...."
+             Style="{StaticResource ThemeText}"/>
+      
+    </StackLayout>
+  </Grid>
+</ContentPage>

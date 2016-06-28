@@ -1,4 +1,5 @@
 ﻿using BAMApp.Models;
+using BAMApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace BAMApp.Views
         {
             get { return listView; }
         }
+        //public Button LogoutButton
+        //{
+        //    get { return btnLogout; }
+        //}
         public MasterPage()
         {
             InitializeComponent();
@@ -40,6 +45,7 @@ namespace BAMApp.Views
             });
 
             listView.ItemsSource = masterPageItems;
+
         }
     }
 }

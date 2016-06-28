@@ -1,4 +1,6 @@
-﻿using BAMApp.ViewModels;
+﻿using BAMApp.Models;
+using BAMApp.ViewModels;
+using Microsoft.WindowsAzure.MobileServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +13,14 @@ namespace BAMApp.Views
 {
     public partial class SignInPage : ContentPage
     {
+        
         public SignInPage()
         {
             InitializeComponent();
-            imgBG.Source = ImageSource.FromResource("BAMApp.Assets.Images.SignInPageBG.jpg");
 
-            BindingContext = new SignInViewModel(Navigation);
+            SignInViewModel vm = ViewModelLocator.SignInViewModel;
+            vm.Initialize(this);
+            BindingContext = vm;
         }
     }
 }

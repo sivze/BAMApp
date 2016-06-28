@@ -1,4 +1,5 @@
 ﻿using BAMApp.Models;
+using BAMApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,13 @@ namespace BAMApp.Views
             //    BarBackgroundColor = (Color)Application.Current.Resources["ThemeColor"],
             //    BarTextColor = (Color)Application.Current.Resources["ThemeTextColor"]
             //};
-
             masterPage.ListView.ItemSelected += OnItemSelected;
+
+            HomeViewModel vm = ViewModelLocator.HomeViewModel;
+            vm.Initialize(this);
+            BindingContext = vm;
         }
+
         void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var item = e.SelectedItem as MasterPageItem;

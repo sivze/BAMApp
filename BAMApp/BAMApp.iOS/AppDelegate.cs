@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace BAMApp.iOS
 {
@@ -23,6 +24,10 @@ namespace BAMApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            CurrentPlatform.Init();
+            SQLitePCL.CurrentPlatform.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

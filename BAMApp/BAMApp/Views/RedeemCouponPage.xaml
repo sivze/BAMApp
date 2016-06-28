@@ -5,7 +5,7 @@
              Title="Redeem Coupon">
   <StackLayout Spacing="20" Padding="20" HorizontalOptions="Center">
     <Label Text="Store Name" HorizontalTextAlignment="Center"/>
-    <Image Source="icon.png"/>
+    <Image x:Name="imgBarcode" Source="icon.png"/>
     <Label Text="One time use valid 60 days from receipt." HorizontalTextAlignment="Center"/>
   </StackLayout>
 </ContentPage>

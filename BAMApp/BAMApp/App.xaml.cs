@@ -1,4 +1,6 @@
-﻿using BAMApp.Views;
+﻿using BAMApp.Services;
+using BAMApp.ViewModels;
+using BAMApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +17,8 @@ namespace BAMApp
         {
             // The root page of your application
             InitializeComponent();
-            MainPage = new SignInPage();
+
+            MainPage = new NavigationPage(new SplashScreen());
         }
 
         protected override void OnStart()
@@ -32,5 +35,6 @@ namespace BAMApp
         {
             // Handle when your app resumes
         }
+
     }
 }
