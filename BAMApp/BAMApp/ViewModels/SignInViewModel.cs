@@ -130,7 +130,8 @@ namespace BAMApp.ViewModels
         public async void Initialize(SignInPage signInPage)
         {
             this.signInPage = signInPage;
-            Password = "";
+            Email = string.Empty;
+            Password = string.Empty;
         }
 
         public async void SignIn(object obj)
@@ -187,8 +188,8 @@ namespace BAMApp.ViewModels
                        ServiceLocator.AzureService.MobileService,
                        MobileServiceAuthenticationProvider.Facebook);
 
+                //To get facebook basic info
                 //var extraInfo = await ServiceLocator.AzureService.GetUserData();
-
                 //string email = extraInfo.Message.Email;
                 
                 if (Settings.IsLoggedIn)

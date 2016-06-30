@@ -48,8 +48,9 @@ namespace BAMApp.Droid.Helpers
                 ClearCookies();
 
                 await client.LogoutAsync();
-
-                if(client.CurrentUser==null)
+                Settings.UserId = string.Empty;
+                Settings.AuthToken = string.Empty;
+                if (client.CurrentUser==null)
                     loggedOut = true;
 
             }

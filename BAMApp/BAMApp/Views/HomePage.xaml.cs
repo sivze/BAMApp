@@ -16,12 +16,6 @@ namespace BAMApp.Views
         {
             InitializeComponent();
 
-            //Detail = 
-            //    new NavigationPage(new SurveyListPage())
-            //{
-            //    BarBackgroundColor = (Color)Application.Current.Resources["ThemeColor"],
-            //    BarTextColor = (Color)Application.Current.Resources["ThemeTextColor"]
-            //};
             masterPage.ListView.ItemSelected += OnItemSelected;
 
             HomeViewModel vm = ViewModelLocator.HomeViewModel;
@@ -34,12 +28,8 @@ namespace BAMApp.Views
             var item = e.SelectedItem as MasterPageItem;
             if (item != null)
             {
-                Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetType))
-                {
-                    BarBackgroundColor = (Color)Application.Current.Resources["ThemeColor"],
-                    BarTextColor = (Color)Application.Current.Resources["ThemeTextColor"],
-                };
-
+                Navigation.PushAsync((Page)Activator.CreateInstance(item.TargetType));
+                
                 masterPage.ListView.SelectedItem = null;
                 IsPresented = false;
             }

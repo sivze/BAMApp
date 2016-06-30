@@ -13,13 +13,15 @@ namespace BAMApp.Services
     {
         MobileServiceClient MobileService {get;}
         Task Initialize();
-        Task<ObservableCollection<T>> GetAll<T>();
+        //Task<ObservableCollection<T>> GetAll<T>();
         Task<BAMAppUser> GetByEmail(string email);
         Task<BAMAppUser> GetById(string id);
-        Task<SocialLoginResult> GetUserData();
-        Task Pull<T>();
-        Task Save(BAMAppUser user);
-        Task Sync();
+        //Task<SocialLoginResult> GetUserData();
+        //Task Pull<T>();
+        Task Add(BAMAppUser user);
+        Task Update(BAMAppUser user);
+        Task Delete(string id);
+        //Task Sync();
         Task<bool> Logout();
         void ReportError(Exception ex);
     }

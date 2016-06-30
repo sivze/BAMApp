@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BAMApp.Views.UserProfilePage"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              Title="User Profile">
 
   <Grid>
@@ -9,37 +10,59 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    
+
     <StackLayout BackgroundColor="{StaticResource ThemeColor}"
                  Padding="20">
-      <Button BorderRadius="30"
-              HeightRequest="60"
-              WidthRequest="60"
-              BackgroundColor="{StaticResource SecondaryColor}"
-              HorizontalOptions="Center"
-              VerticalOptions="Start" />
-      <Label Text="Sivakumar Chellamuthu"
-             Style="{StaticResource ThemeText}"
+      <Image x:Name="imgBG"
+             WidthRequest="100"
+             Aspect="AspectFill"
+             HorizontalOptions="Center"
+             Source="{Binding Avatar}"/>
+      <Entry Text="{Binding Name, Mode=TwoWay}"
              FontSize="{StaticResource BigTextSize}"
              HorizontalTextAlignment="Center"/>
-      <Label Text="Male"
-             Style="{StaticResource ThemeText}"
-             HorizontalTextAlignment="Center"/>
-      <Label Text="01/01/1991"
-             Style="{StaticResource ThemeText}"
-             HorizontalTextAlignment="Center"/>
+
+     <Picker Title="Gender" 
+                SelectedIndex="{Binding GenderIndex, Mode=TwoWay}" 
+                HorizontalOptions="Center">
+          <Picker.Items>
+            <x:String>Male</x:String>
+            <x:String>Female</x:String>
+          </Picker.Items>
+        </Picker>
+
+      <DatePicker VerticalOptions="CenterAndExpand"
+                  Date="{Binding Birthday, Mode=TwoWay}"
+                  HorizontalOptions="Center">
+        <DatePicker.Format>MM/dd/yyyy</DatePicker.Format>
+        <DatePicker.MinimumDate>
+          <sys:DateTime x:FactoryMethod="Parse">
+            <x:Arguments>
+              <x:String>Jan 1 1950</x:String>
+            </x:Arguments>
+          </sys:DateTime>
+        </DatePicker.MinimumDate>
+        <DatePicker.MaximumDate>
+          <sys:DateTime x:FactoryMethod="Parse">
+            <x:Arguments>
+              <x:String>Dec 31 2000</x:String>
+            </x:Arguments>
+          </sys:DateTime>
+        </DatePicker.MaximumDate>
+      </DatePicker>
+
     </StackLayout>
 
     <ScrollView Grid.Row="1" VerticalOptions="Center">
       <StackLayout Padding="20" Spacing="20">
-        
+
         <StackLayout Orientation="Horizontal">
-          <Label Text="Number:"
+          <Label Text="Phone:"
                  Style="{StaticResource ThemeText}"
                  HorizontalOptions="Start"
                  VerticalOptions="Center"
                  WidthRequest="100"/>
-          <Entry Text="25"
+          <Entry Text="{Binding PhoneNumber, Mode=TwoWay}"
                  Style="{StaticResource CustomEntryStyle}"
                  HorizontalOptions="FillAndExpand"
                  Keyboard="Telephone"/>
@@ -51,10 +74,9 @@
                  HorizontalOptions="Start"
                  VerticalOptions="Center"
                  WidthRequest="100"/>
-          <Entry Text="k@k.com"
-                 Style="{StaticResource CustomEntryStyle}"
-                 HorizontalOptions="FillAndExpand"
-                 Keyboard="Email"/>
+          <Label Text="{Binding Email, Mode=OneWay}"
+                 Style="{StaticResource ThemeText}"
+                 HorizontalOptions="FillAndExpand"/>
         </StackLayout>
 
         <StackLayout Orientation="Horizontal">
@@ -63,7 +85,7 @@
                  HorizontalOptions="Start"
                  VerticalOptions="Center"
                  WidthRequest="100"/>
-          <Entry Text="434543"
+          <Entry Text="{Binding ZipCode, Mode=TwoWay}"
                  Style="{StaticResource CustomEntryStyle}"
                  HorizontalOptions="FillAndExpand"
                  Keyboard="Numeric"/>
@@ -72,13 +94,38 @@
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center">
           <Button Text="Update"
-                  Style="{StaticResource CustomButton}"/>
+                  Style="{StaticResource CustomButton}"
+          Command="{Binding UpdateCommand}"/>
           <Button Text="Delete"
                   Style="{StaticResource CustomButton}"
-                  HorizontalOptions="FillAndExpand"/>
+                  HorizontalOptions="FillAndExpand"
+        Command="{Binding DeleteCommand}"/>
         </StackLayout>
-
+        <Button Text="Stop Notifications"
+                Style="{StaticResource CustomButton}"
+      Command="{Binding StopNotificationsCommand}"/>
       </StackLayout>
     </ScrollView>
+    
+    <!--Progress bar-->
+    <Grid Grid.RowSpan="2"
+            BackgroundColor="Black"
+            Opacity="0.7"
+            IsVisible="{Binding IsBusy}"/>
+      
+    <Grid Grid.RowSpan="2">
+      <StackLayout IsVisible="{Binding IsBusy}"
+                   VerticalOptions="Center">
+
+        <ActivityIndicator IsRunning="True"
+                           Color="{StaticResource ThemeBackgroundColor}"/>
+        <Label Text="{Binding LoadingMessage}"
+                 HorizontalOptions="Center"
+                 TextColor = "White"
+                 Style="{StaticResource PrimaryText}"/>
+
+      </StackLayout>
+    </Grid>
+  
   </Grid>
 </ContentPage>

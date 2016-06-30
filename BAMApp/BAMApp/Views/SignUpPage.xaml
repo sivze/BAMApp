@@ -2,15 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BAMApp.Views.SignUpPage"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             Title="Sign Up">
 
-  <StackLayout>
-    <Grid BackgroundColor="{StaticResource ThemeColor}" HeightRequest="30" Padding="10">
-      <Label Text="Sign Up"
-             Style="{StaticResource ThemeText}"
-             FontAttributes="Bold"
-             VerticalOptions="Center"/>
-    </Grid>
+  <Grid>
 
     <ScrollView>
       <StackLayout VerticalOptions="Center" Spacing="20" Padding="20">
@@ -86,5 +81,24 @@
 
       </StackLayout>
     </ScrollView>
-  </StackLayout>
+    
+   <!--Progress bar-->
+      <Grid BackgroundColor="Black"
+            Opacity="0.7"
+            IsVisible="{Binding IsBusy}"/>
+
+      <Grid IsVisible="{Binding IsBusy}">
+        <StackLayout VerticalOptions="Center">
+
+          <ActivityIndicator IsRunning="True"
+                             Color="{StaticResource ThemeBackgroundColor}"/>
+          <Label Text="{Binding LoadingMessage}"
+                   HorizontalOptions="Center"
+                   TextColor = "White"
+                   Style="{StaticResource PrimaryText}"/>
+
+        </StackLayout>
+      </Grid>
+    
+  </Grid>
 </ContentPage>

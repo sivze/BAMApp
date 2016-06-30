@@ -25,12 +25,12 @@ namespace BAMApp.Views
             InitializeComponent();
 
             var masterPageItems = new List<MasterPageItem>();
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "Survey",
-                IconSource = "todo.png",
-                TargetType = typeof(SurveyListPage)
-            });
+            //masterPageItems.Add(new MasterPageItem
+            //{
+            //    Title = "Survey",
+            //    IconSource = "todo.png",
+            //    TargetType = typeof(SurveyListPage)
+            //});
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Coupons",

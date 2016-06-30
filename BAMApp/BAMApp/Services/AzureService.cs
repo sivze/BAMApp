@@ -67,7 +67,6 @@ namespace BAMApp.Services
                     //bamAppUserTable = mobileService.GetSyncTable<BAMAppUser>();
 
                     bamAppUserTable = mobileService.GetTable<BAMAppUser>();
-
                     //pull the table from Azure
                     //await Pull<BAMAppUser>();
                 }
@@ -79,7 +78,7 @@ namespace BAMApp.Services
 
         }
 
-        public async Task Save(BAMAppUser user)
+        public async Task Add(BAMAppUser user)
         {
             try
             {
@@ -95,15 +94,25 @@ namespace BAMApp.Services
                 ReportError(ex);
             }
         }
+        public async Task Update(BAMAppUser user)
+        {
+            await bamAppUserTable.UpdateAsync(user);
+        }
+        public async Task Delete(string id)
+        {
+            BAMAppUser user = await GetById(id);
+            await bamAppUserTable.DeleteAsync(user);
+            
+        }
         public async Task<BAMAppUser> GetByEmail(string email)
         {
             try
             {
-                List<BAMAppUser> user = await bamAppUserTable
-                    .Where(userObj => userObj.Email == email).ToListAsync();
+                List<BAMAppUser> bamAppUser = await bamAppUserTable.Where(
+                    user => user.Email == email).ToListAsync();
 
-                if (user.Count > 0)
-                    return user[0];
+                if (bamAppUser.Count > 0)
+                    return bamAppUser[0];
                 else
                     return null;
             }
@@ -125,111 +134,109 @@ namespace BAMApp.Services
                 return null;
             }
         }
-        public async Task<ObservableCollection<T>> GetAll<T>()
-        {
-            //ObservableCollection<T> theCollection = new ObservableCollection<T>();
-
-            //try
-            //{
-            //    //var theTable = MobileService.GetTable<T>();
-            //    var theTable = MobileService.GetSyncTable<T>();
-            //    theCollection = await theTable.ToCollectionAsync<T>();
-            //}
-            //catch (Exception ex)
-            //{
-            //    theCollection = null;
-            //    ReportError(ex);
-            //}
-
-            //return theCollection;
-            return null;
-        }
-
         
-        public async Task Pull<T>()
-        {
-            try
-            {
-                //await bamAppUserTable.PullAsync("allUsers", bamAppUserTable.CreateQuery());
-            }
-            catch (Exception ex)
-            {
-                ReportError(ex);
-            }
-        }
-
-        
-        public async Task Sync()
-        {
-            ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
-
-            try
-            {
-                //pull down all latest changes and then push current coffees up
-                //await bamAppUserTable.PullAsync("user", bamAppUserTable.CreateQuery());
-                //await Pull<BAMAppUser>();
-                //await mobileService.SyncContext.PushAsync();
-            }
-            catch (MobileServicePushFailedException exc)
-            {
-                if (exc.PushResult != null)
-                {
-                    syncErrors = exc.PushResult.Errors;
-                }
-            }
-
-            // Simple error/conflict handling. A real application would handle the various errors like network conditions,
-            // server conflicts and others via the IMobileServiceSyncHandler.
-            if (syncErrors != null)
-            {
-                foreach (var error in syncErrors)
-                {
-                    if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
-                    {
-                        //Update failed, reverting to server's copy.
-                        await error.CancelAndUpdateItemAsync(error.Result);
-                    }
-                    else
-                    {
-                        // Discard local change.
-                        await error.CancelAndDiscardItemAsync();
-                    }
-
-                    Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
-                }
-            }
-        }
-
-        public async Task<SocialLoginResult> GetUserData()
-        {
-
-            return await mobileService.InvokeApiAsync<SocialLoginResult>("getextrauserinfo", HttpMethod.Get, null);
-        }
 
         public async Task<bool> Logout()
         {
             try
             {
-                Settings.UserId = "";
-                Settings.AuthToken = "";
-                if (!string.IsNullOrEmpty(Settings.AuthToken))
-                    return await DependencyService.Get<IAuthentication>().LogoutAsync(mobileService);
-                else
-                    return true;
+                return await DependencyService.Get<IAuthentication>().LogoutAsync(mobileService);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ReportError(ex);
                 return false;
             }
         }
 
+        //public async Task<ObservableCollection<T>> GetAll<T>()
+        //{
+        //    ObservableCollection<T> theCollection = new ObservableCollection<T>();
+
+        //    try
+        //    {
+        //        //var theTable = MobileService.GetTable<T>();
+        //        var theTable = MobileService.GetSyncTable<T>();
+        //        theCollection = await theTable.ToCollectionAsync<T>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        theCollection = null;
+        //        ReportError(ex);
+        //    }
+
+        //    return theCollection;
+        //    return null;
+        //}
+
+
+        //public async Task Pull<T>()
+        //{
+        //    try
+        //    {
+        //        await bamAppUserTable.PullAsync("allUsers", bamAppUserTable.CreateQuery());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ReportError(ex);
+        //    }
+        //}
+
+
+        //public async Task Sync()
+        //{
+        //    ReadOnlyCollection<MobileServiceTableOperationError> syncErrors = null;
+
+        //    try
+        //    {
+        //        //pull down all latest changes and then push current coffees up
+        //        //await bamAppUserTable.PullAsync("user", bamAppUserTable.CreateQuery());
+        //        //await Pull<BAMAppUser>();
+        //        //await mobileService.SyncContext.PushAsync();
+        //    }
+        //    catch (MobileServicePushFailedException exc)
+        //    {
+        //        if (exc.PushResult != null)
+        //        {
+        //            syncErrors = exc.PushResult.Errors;
+        //        }
+        //    }
+
+        //    // Simple error/conflict handling. A real application would handle the various errors like network conditions,
+        //    // server conflicts and others via the IMobileServiceSyncHandler.
+        //    if (syncErrors != null)
+        //    {
+        //        foreach (var error in syncErrors)
+        //        {
+        //            if (error.OperationKind == MobileServiceTableOperationKind.Update && error.Result != null)
+        //            {
+        //                //Update failed, reverting to server's copy.
+        //                await error.CancelAndUpdateItemAsync(error.Result);
+        //            }
+        //            else
+        //            {
+        //                // Discard local change.
+        //                await error.CancelAndDiscardItemAsync();
+        //            }
+
+        //            Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
+        //        }
+        //    }
+        //}
+
+        //public async Task<SocialLoginResult> GetUserData()
+        //{
+
+        //    return await mobileService.InvokeApiAsync<SocialLoginResult>("getextrauserinfo", HttpMethod.Get, null);
+        //}
+
         public void ReportError(Exception ex)
         {
             throw new NotImplementedException();
         }
-
     }
+
+    //for getting facebook user info
     public class SocialLoginResult
     {
         public Message Message { get; set; }

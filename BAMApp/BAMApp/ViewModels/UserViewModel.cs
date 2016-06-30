@@ -23,11 +23,18 @@ namespace BAMApp.ViewModels
         private string zipCode;
         private int genderIndex = -1;
         private string gender;
+        private string avatar;
+        private bool isBusy=false;
+        private string loadingMessage;
         private DateTime birthday;
 
         private SignUpPage signUpPage;
+        private UserProfilePage userProfilePage;
 
         private ICommand signUpCommand;
+        private ICommand updateCommand;
+        private ICommand deleteCommand;
+        private ICommand stopNotificationsCommand;
         #endregion
 
         #region Properties
@@ -100,7 +107,7 @@ namespace BAMApp.ViewModels
                 if (zipCode != value)
                 {
                     zipCode = value;
-                    OnPropertyChanged("Zipcode");
+                    OnPropertyChanged("ZipCode");
                 }
             }
         }
@@ -119,7 +126,7 @@ namespace BAMApp.ViewModels
                     else if (genderIndex == 1)
                         gender = Constants.FEMALE;
 
-                    OnPropertyChanged("Gender");
+                    OnPropertyChanged("GenderIndex");
                 }
             }
         }
@@ -135,6 +142,42 @@ namespace BAMApp.ViewModels
                 }
             }
         }
+        public string Avatar
+        {
+            get { return avatar; }
+            set
+            {
+                if (avatar != value)
+                {
+                    avatar = value;
+                    OnPropertyChanged("Avatar");
+                }
+            }
+        }
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                if (isBusy != value)
+                {
+                    isBusy = value;
+                    OnPropertyChanged("IsBusy");
+                }
+            }
+        }
+        public string LoadingMessage
+        {
+            get { return loadingMessage; }
+            set
+            {
+                if (loadingMessage != value)
+                {
+                    loadingMessage = value;
+                    OnPropertyChanged("LoadingMessage");
+                }
+            }
+        }
         public ICommand SignUpCommand
         {
             get
@@ -147,15 +190,92 @@ namespace BAMApp.ViewModels
                 return signUpCommand;
             }
         }
+        public ICommand UpdateCommand
+        {
+            get
+            {
+                if (updateCommand == null)
+                {
+                    updateCommand = new BaseCommand(Update);
+                }
+
+                return updateCommand;
+            }
+        }
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                if (deleteCommand == null)
+                {
+                    deleteCommand = new BaseCommand(Delete);
+                }
+
+                return deleteCommand;
+            }
+        }
+        public ICommand StopNotificationsCommand
+        {
+            get
+            {
+                if (stopNotificationsCommand == null)
+                {
+                    stopNotificationsCommand = new BaseCommand(StopNotifications);
+                }
+
+                return stopNotificationsCommand;
+            }
+        }
         #endregion
 
         #region Methods
         public void Initialize(SignUpPage page)
         {
             this.signUpPage = page;
+
+            Avatar = Name = Email = PhoneNumber = ZipCode = Password = ConfirmPassword = string.Empty;
+            GenderIndex = -1;
+            Birthday = DateTime.Now.AddYears(-18);
+        }
+        public async void Initialize(UserProfilePage page)
+        {
+            this.userProfilePage = page;
+            IsBusy = true;
+            LoadingMessage = "Loading...";
+
+            BAMAppUser user = await ServiceLocator.AzureService.GetById(Settings.UserId);
+            Avatar = user.Avatar;
+            Name = user.Name;
+            GenderIndex = user.Gender == Constants.MALE ? 0 : 1;
+            Email = user.Email;
+            Birthday = user.Birthday;
+            PhoneNumber = user.PhoneNumber;
+            ZipCode = user.ZipCode;
+
+            IsBusy = false;
+        }
+        public BAMAppUser CreateUserInstance()
+        {
+            return
+                new BAMAppUser
+                {
+                    Name = name,
+                    Email = email,
+                    Password = password,
+                    Avatar = gender.Equals(Constants.MALE) ? Constants.DEFAULT_MALE_AVATAR :
+                                                             Constants.DEFAULT_FEMALE_AVATAR,
+                    PhoneNumber = phoneNumber,
+                    ZipCode = zipCode,
+                    Gender = gender,
+                    Birthday = birthday,
+                    OS = Device.OS.ToString()
+                };
         }
         public async void SignUp(object obj)
         {
+            IsBusy = true;
+            LoadingMessage = "Creating Account...";
+
             if (
                 string.IsNullOrEmpty(name) ||
                 string.IsNullOrEmpty(email) ||
@@ -173,6 +293,7 @@ namespace BAMApp.ViewModels
             }
             else
             {
+                
                 //Check if email id already exists
                 if (await ServiceLocator.AzureService.GetByEmail(email) != null)
                 {
@@ -181,27 +302,15 @@ namespace BAMApp.ViewModels
                 }
 
                 //Create BAMPppUser Object
-                BAMAppUser user = new BAMAppUser
-                {
-                    Name = name,
-                    Email = email,
-                    Password = password,
-                    Avatar = gender.Equals(Constants.MALE) ? Constants.DEFAULT_MALE_AVATAR : 
-                                                             Constants.DEFAULT_FEMALE_AVATAR,
-                    PhoneNumber = phoneNumber,
-                    ZipCode = zipCode,
-                    Gender = gender,
-                    Birthday = birthday,
-                    OS = Device.OS.ToString()
-                };
+                BAMAppUser user = CreateUserInstance();
 
-                await ServiceLocator.AzureService.Save(user);
+                await ServiceLocator.AzureService.Add(user);
 
                 //if inserted successfully navigate
                 BAMAppUser savedUser = await ServiceLocator.AzureService.GetByEmail(user.Email);
                 if (savedUser != null)
                 {
-                    //save userID to local settings
+                    //save userID and user info to local settings
                     Settings.UserId = savedUser.Id;
 
                     //remove  sign up page from navigation stack
@@ -209,7 +318,44 @@ namespace BAMApp.ViewModels
                     await signUpPage.Navigation.PopToRootAsync();
                 }
             }
-            #endregion
+
+            IsBusy = false;
         }
+
+        
+        public async void Update(object obj)
+        {
+            IsBusy = true;
+            LoadingMessage = "Updating...";
+
+            BAMAppUser user = CreateUserInstance();
+            user.Id = Settings.UserId;
+
+            await ServiceLocator.AzureService.Update(user);
+            Initialize(userProfilePage);
+
+            IsBusy = false;
+        }
+        public async void Delete(object obj)
+        {
+            bool answer = await userProfilePage.DisplayAlert("Are you sure?", "All coupons will be lost", "ok", "cancel");
+            if (answer)
+            {
+                IsBusy = true;
+                LoadingMessage = "Deleting...";
+
+                await ServiceLocator.AzureService.Delete(Settings.UserId);
+                await ServiceLocator.AzureService.Logout();
+
+                userProfilePage.Navigation.InsertPageBefore(new SignInPage(), userProfilePage.Navigation.NavigationStack.First());
+                await userProfilePage.Navigation.PopToRootAsync();
+            }
+
+            IsBusy = false;
+        }
+        public async void StopNotifications(object obj)
+        {
+        }
+        #endregion
     }
 }
