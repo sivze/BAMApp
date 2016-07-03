@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BAMApp.Services
+namespace BAMApp.Interfaces
 {
     public interface IAzureService
     {

@@ -37,7 +37,7 @@ namespace BAMApp.Services
             //Todo - why authHandler is used?
             var handler = new AuthHandler();
 
-            mobileService = new MobileServiceClient("APPURL", handler);
+            mobileService = new MobileServiceClient(Constants.AZURE_SERVICE_URL, handler);
 
             //Create our client
             handler.Client = mobileService;

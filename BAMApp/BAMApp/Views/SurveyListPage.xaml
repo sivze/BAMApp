@@ -3,16 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BAMApp.Views.SurveyListPage"
              Title="Survey">
-  <Grid VerticalOptions="CenterAndExpand">
-    <StackLayout>
-      <Label Text="You are at Forever 21&#x0a;at Sandy, Utah"
-             VerticalOptions="Center"
+  <Grid>
+    <StackLayout VerticalOptions="Center"
+                 >
+      <Label Text="{Binding Location}"
              HorizontalTextAlignment="Center"/>
+      <Image Source="{Binding Image}"
+             Aspect="AspectFit"/>
       <Button Text="Take Survey now" 
-              Clicked="OnTakeSurveyClicked"/>
+              Clicked="OnTakeSurveyClicked"
+              IsEnabled="{Binding IsSurveyVisible}"/>
       <Label Text="Receive 15% discount"
-             VerticalOptions="Center"
              HorizontalTextAlignment="Center"/>
     </StackLayout>
+    
+    <!--Progress bar-->
+    <Grid BackgroundColor="Black"
+          Opacity="0.7"
+          IsVisible="{Binding IsBusy}"/>
+
+    <Grid IsVisible="{Binding IsBusy}">
+      <StackLayout VerticalOptions="Center">
+
+        <ActivityIndicator IsRunning="True"
+                           Color="{StaticResource ThemeBackgroundColor}"/>
+        <Label Text="{Binding LoadingMessage}"
+                 HorizontalOptions="Center"
+                 TextColor = "White"
+                 Style="{StaticResource PrimaryText}"
+               HorizontalTextAlignment="Center"/>
+
+      </StackLayout>
+    </Grid>
+    
   </Grid>
 </ContentPage>

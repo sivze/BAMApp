@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BAMApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,9 @@ namespace BAMApp.Views
         {
             InitializeComponent();
 
+            //HomeViewModel vm = ViewModelLocator.HomeViewModel;
+            //vm.Initialize(this);
+            //BindingContext = vm;
         }
 
         void OnTakeSurveyClicked(object sender, EventArgs e)
