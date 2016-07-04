@@ -24,8 +24,6 @@ namespace BAMApp.ViewModels
         private int genderIndex = -1;
         private string gender;
         private string avatar;
-        private bool isBusy=false;
-        private string loadingMessage;
         private DateTime birthday;
 
         private SignUpPage signUpPage;
@@ -154,30 +152,7 @@ namespace BAMApp.ViewModels
                 }
             }
         }
-        public bool IsBusy
-        {
-            get { return isBusy; }
-            set
-            {
-                if (isBusy != value)
-                {
-                    isBusy = value;
-                    OnPropertyChanged("IsBusy");
-                }
-            }
-        }
-        public string LoadingMessage
-        {
-            get { return loadingMessage; }
-            set
-            {
-                if (loadingMessage != value)
-                {
-                    loadingMessage = value;
-                    OnPropertyChanged("LoadingMessage");
-                }
-            }
-        }
+ 
         public ICommand SignUpCommand
         {
             get
@@ -240,17 +215,27 @@ namespace BAMApp.ViewModels
         public async void Initialize(UserProfilePage page)
         {
             this.userProfilePage = page;
-            IsBusy = true;
-            LoadingMessage = "Loading...";
 
-            BAMAppUser user = await ServiceLocator.AzureService.GetById(Settings.UserId);
-            Avatar = user.Avatar;
-            Name = user.Name;
-            GenderIndex = user.Gender == Constants.MALE ? 0 : 1;
-            Email = user.Email;
-            Birthday = user.Birthday;
-            PhoneNumber = user.PhoneNumber;
-            ZipCode = user.ZipCode;
+            //need change here after getting facebook user info
+            if (string.IsNullOrEmpty(Settings.AuthToken)) 
+            {
+                IsBusy = true;
+                LoadingMessage = "Loading...";
+
+                BAMAppUser user = await ServiceLocator.AzureService.GetById<BAMAppUser>(Settings.UserId);
+                Avatar = user.Avatar;
+                Name = user.Name;
+                GenderIndex = user.Gender == Constants.MALE ? 0 : 1;
+                Email = user.Email;
+                Birthday = user.Birthday;
+                PhoneNumber = user.PhoneNumber;
+                ZipCode = user.ZipCode;
+            }
+            else
+            {
+                await page.DisplayAlert("Sorry", "No access for Facebook User", "Go Back");
+                await page.Navigation.PopAsync();
+            }
 
             IsBusy = false;
         }
@@ -295,8 +280,9 @@ namespace BAMApp.ViewModels
             {
                 
                 //Check if email id already exists
-                if (await ServiceLocator.AzureService.GetByEmail(email) != null)
+                if (await ServiceLocator.AzureService.GetUserByEmail(email) != null)
                 {
+                    IsBusy = false;
                     await signUpPage.DisplayAlert("Sorry", "Email id already exists!", "Please sign in or enter different email id");
                     return;
                 }
@@ -307,7 +293,7 @@ namespace BAMApp.ViewModels
                 await ServiceLocator.AzureService.Add(user);
 
                 //if inserted successfully navigate
-                BAMAppUser savedUser = await ServiceLocator.AzureService.GetByEmail(user.Email);
+                BAMAppUser savedUser = await ServiceLocator.AzureService.GetUserByEmail(user.Email);
                 if (savedUser != null)
                 {
                     //save userID and user info to local settings
@@ -344,8 +330,11 @@ namespace BAMApp.ViewModels
                 IsBusy = true;
                 LoadingMessage = "Deleting...";
 
-                await ServiceLocator.AzureService.Delete(Settings.UserId);
-                await ServiceLocator.AzureService.Logout();
+                BAMAppUser user = await ServiceLocator.AzureService.GetById<BAMAppUser>(Settings.UserId);
+                await ServiceLocator.AzureService.Delete(user);
+                
+                await ServiceLocator.AuthenticationService.LogoutAsync(
+                ServiceLocator.AzureService.MobileService);
 
                 userProfilePage.Navigation.InsertPageBefore(new SignInPage(), userProfilePage.Navigation.NavigationStack.First());
                 await userProfilePage.Navigation.PopToRootAsync();

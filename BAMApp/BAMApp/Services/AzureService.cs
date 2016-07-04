@@ -78,12 +78,20 @@ namespace BAMApp.Services
 
         }
 
-        public async Task Add(BAMAppUser user)
+        public async Task Add<T>(T entity)
         {
             try
             {
                 //await MobileService.GetTable<TodoItem>().InsertAsync(user1);
-                await bamAppUserTable.InsertAsync(user);
+                //if ((object)entity is BAMAppUser)
+                //    await bamAppUserTable.InsertAsync((BAMAppUser)(object)entity);
+                //else if ((object)entity is SurveyResponse)
+                //{
+                //    //get survey response table and insert
+                //}
+
+                var table = MobileService.GetTable<T>();
+                await table.InsertAsync(entity);
 
                 //Synchronize user
                 //await Sync();
@@ -94,17 +102,67 @@ namespace BAMApp.Services
                 ReportError(ex);
             }
         }
-        public async Task Update(BAMAppUser user)
+        public async Task Update<T>(T entity)
         {
-            await bamAppUserTable.UpdateAsync(user);
+            try
+            {
+
+                var table = MobileService.GetTable<T>();
+                await table.UpdateAsync(entity);
+
+                //if ((object)entity is BAMAppUser)
+                //    await bamAppUserTable.UpdateAsync((BAMAppUser)(object)entity);
+                //else if ((object)entity is SurveyResponse)
+                //{
+                //    //get survey response table and update
+                //}
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+            }
         }
-        public async Task Delete(string id)
+        public async Task Delete<T>(T entity)
         {
-            BAMAppUser user = await GetById(id);
-            await bamAppUserTable.DeleteAsync(user);
-            
+            try
+            {
+                var table = MobileService.GetTable<T>();
+                await table.DeleteAsync(entity);
+                //if (T.GetType()  is BAMAppUser)
+                //{
+                //    BAMAppUser user = await GetById(id, type);
+
+                //    await bamAppUserTable.DeleteAsync(user);
+                //}
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+            }
         }
-        public async Task<BAMAppUser> GetByEmail(string email)
+
+        public async Task<T> GetById<T>(string id)
+        {
+            try
+            {
+                var table = MobileService.GetTable<T>();
+
+                return await table.LookupAsync(id);
+
+                //if ((object)type is BAMAppUser)
+                //{
+                //    return await bamAppUserTable.LookupAsync(id); ;
+                //}
+                //return null;
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+                return default(T);
+            }
+        }
+
+        public async Task<BAMAppUser> GetUserByEmail(string email)
         {
             try
             {
@@ -122,11 +180,20 @@ namespace BAMApp.Services
                 return null;
             }
         }
-        public async Task<BAMAppUser> GetById(string id)
+
+        public async Task<Store> GetStoreByStoreName(string storeName)
         {
             try
             {
-                return await bamAppUserTable.LookupAsync(id); ;
+                var table = MobileService.GetTable<Store>();
+
+                List<Store> stores = await table.Where(
+                    store => store.Name == storeName).ToListAsync();
+
+                if (stores.Count > 0)
+                    return stores[0];
+                else
+                    return null;
             }
             catch (Exception ex)
             {
@@ -134,21 +201,47 @@ namespace BAMApp.Services
                 return null;
             }
         }
-        
 
-        public async Task<bool> Logout()
+        public async Task<Survey> GetSurveyByStoreId(string storeId)
         {
             try
             {
-                return await DependencyService.Get<IAuthentication>().LogoutAsync(mobileService);
+                var table = MobileService.GetTable<Survey>();
+
+                List<Survey> surveys = await table.Where(
+                    survey => survey.StoreId == storeId).ToListAsync();
+
+                if (surveys.Count > 0)
+                    return surveys[0];
+                else
+                    return null;
             }
             catch (Exception ex)
             {
                 ReportError(ex);
-                return false;
+                return null;
             }
         }
+        public async Task<SurveyResponse> GetSurveyRespnceBySurveyId(string surveyId)
+        {
+            try
+            {
+                var table = MobileService.GetTable<SurveyResponse>();
 
+                List<SurveyResponse> surveyResponses = await table.Where(
+                    surveyResponse => surveyResponse.SurveyId == surveyId).ToListAsync();
+
+                if (surveyResponses.Count > 0)
+                    return surveyResponses[0];
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                ReportError(ex);
+                return null;
+            }
+        }
         //public async Task<ObservableCollection<T>> GetAll<T>()
         //{
         //    ObservableCollection<T> theCollection = new ObservableCollection<T>();
@@ -234,6 +327,8 @@ namespace BAMApp.Services
         {
             throw new NotImplementedException();
         }
+
+       
     }
 
     //for getting facebook user info

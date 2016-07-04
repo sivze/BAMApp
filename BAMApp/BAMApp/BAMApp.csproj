@@ -38,16 +38,21 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BooleanConverter.cs" />
     <Compile Include="Helpers\Common.cs" />
     <Compile Include="Helpers\Constants.cs" />
-    <Compile Include="Interfaces\IAuthentication.cs" />
+    <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Interfaces\IGooglePlacesService.cs" />
     <Compile Include="Models\BAMAppUser.cs" />
     <Compile Include="Models\GooglePlaceItem.cs" />
     <Compile Include="Models\GooglePlacesResponse.cs" />
     <Compile Include="Models\MasterPageItem.cs" />
+    <Compile Include="Models\Store.cs" />
+    <Compile Include="Models\Survey.cs" />
+    <Compile Include="Models\SurveyResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\AuthHandler.cs" />
     <Compile Include="Services\FacebookService.cs" />
     <Compile Include="Services\AzureService.cs" />
@@ -58,6 +63,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
+    <Compile Include="ViewModels\SurveyViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\CouponsPage.xaml.cs">

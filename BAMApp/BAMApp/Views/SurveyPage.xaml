@@ -2,34 +2,79 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BAMApp.Views.SurveyPage"
-             Title="Survey">
-  <ScrollView>
-    <StackLayout Padding="20">
-      <Label Text="Where you greeted by a sales associate?"/>
-      <Switch IsToggled="{Binding isOn}"
-              HorizontalOptions="Center"/>
+             Title="{Binding Title}">
+  <Grid>
+    <ScrollView>
+      <StackLayout Padding="10">
+        <Label Text="{Binding Question1}" FontSize="{StaticResource PrimaryTextSize}"/>
+        <StackLayout Orientation="Horizontal">
+          <Switch IsToggled="{Binding IsGreeted, Mode=TwoWay}"
+                  HorizontalOptions="Start"/>
+          <Label Text="{Binding IsGreeted, Converter={StaticResource booleanToValueConverter}}"
+                 Style="{StaticResource ThemeText}"/>
+        </StackLayout>
 
-      <Label Text="Whether store's appearance acceptable?"/>
-      <Switch IsToggled="{Binding isOn}"
-              HorizontalOptions="Center"/>
+        <Label Text="{Binding Question2}" FontSize="{StaticResource PrimaryTextSize}"/>
+        <StackLayout Orientation="Horizontal">
+          <Switch IsToggled="{Binding IsStoreAppearanceOk, Mode=TwoWay}"
+                  HorizontalOptions="Start"/>
+          <Label Text="{Binding IsStoreAppearanceOk, Converter={StaticResource booleanToValueConverter}}"
+                   Style="{StaticResource ThemeText}" />
+        </StackLayout>
 
-      <Label Text="On a scale from 1-10 how would you rate the customer service?"/>
-      <Label x:Name="lblRating"
-             HorizontalOptions="Center"/>
-      <Slider x:Name="sliderRating"
-              Minimum="0"
-              Maximum="10"
-              Value="5"
-              ValueChanged="OnValueChanged"/>
+        <Label Text="{Binding Question3}" FontSize="{StaticResource PrimaryTextSize}"/>
+        <StackLayout Orientation="Horizontal">
+          <Slider x:Name="sliderRating"
+                  Minimum="0"
+                  Maximum="10"
+                  Value="{Binding ServiceRating, Mode=TwoWay}"
+                  ValueChanged="OnValueChanged"
+                  HorizontalOptions="FillAndExpand"/>
+        <Label x:Name="lblRating" Style="{StaticResource ThemeText}"/>
+        </StackLayout>
 
-      <Label Text="What did you purchase, if anything?"/>
-      <Frame Padding="5">
-        <Editor BackgroundColor="{StaticResource ThemeBackgroundColor}"
-                TextColor="{StaticResource PrimaryTextColor}"
-                HeightRequest="100"/>
-      </Frame>
-      <Button Text="Submit"
-              Clicked="OnSubmitClicked"/>
-    </StackLayout>
-  </ScrollView>
+        <Label Text="{Binding Question4}" FontSize="{StaticResource PrimaryTextSize}"/>
+        <Picker Title="Purpose"
+                SelectedIndex="{Binding PurposeOfShoppingIndex, Mode=TwoWay}">
+          <Picker.Items>
+            <x:String>Window shopping </x:String>
+            <x:String>Gift</x:String>
+            <x:String>Instagram</x:String>
+          </Picker.Items>
+        </Picker>
+
+        <Label Text="{Binding Question5}" FontSize="{StaticResource PrimaryTextSize}"/>
+        <StackLayout Orientation="Horizontal">
+          <Switch IsToggled="{Binding IsSatisfied, Mode=TwoWay}"
+                  HorizontalOptions="Start"/>
+          <Label Text="{Binding IsSatisfied, Converter={StaticResource booleanToValueConverter}}"
+                             Style="{StaticResource ThemeText}" />
+        </StackLayout>
+
+        <Button Text="Submit"
+                Command="{Binding SubmitSurveyCommand}"
+                IsEnabled="{Binding IsSubmittable}"/>
+      </StackLayout>
+    </ScrollView>
+
+    <!--Progress bar-->
+    <Grid BackgroundColor="Black"
+          Opacity="0.7"
+          IsVisible="{Binding IsBusy}"/>
+
+    <Grid IsVisible="{Binding IsBusy}">
+      <StackLayout VerticalOptions="Center">
+
+        <ActivityIndicator IsRunning="True"
+                           Color="{StaticResource ThemeBackgroundColor}"/>
+        <Label Text="{Binding LoadingMessage}"
+                 HorizontalOptions="Center"
+                 TextColor = "White"
+                 Style="{StaticResource PrimaryText}"
+               HorizontalTextAlignment="Center"/>
+
+      </StackLayout>
+    </Grid>
+  </Grid>
+
 </ContentPage>

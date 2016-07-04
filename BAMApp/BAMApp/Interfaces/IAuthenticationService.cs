@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BAMApp.Interfaces
 {
-    public interface IAuthentication
+    public interface IAuthenticationService
     {
         Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider);
         Task<bool> LogoutAsync(MobileServiceClient client);

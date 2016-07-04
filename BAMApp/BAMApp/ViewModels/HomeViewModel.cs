@@ -18,13 +18,13 @@ namespace BAMApp.ViewModels
     {
         #region Fields
         private string location;
-        private string loadingMessage;
         private string image;
-        private bool isBusy = false;
         private bool isSurveyVisible = false;
 
+        private GooglePlaceItem gItem;
         private HomePage homePage;
 
+        private ICommand takeSurveyCommand;
         private ICommand logoutCommand;
         #endregion
 
@@ -53,18 +53,7 @@ namespace BAMApp.ViewModels
                 }
             }
         }
-        public bool IsBusy
-        {
-            get { return isBusy; }
-            set
-            {
-                if (isBusy != value)
-                {
-                    isBusy = value;
-                    OnPropertyChanged("IsBusy");
-                }
-            }
-        }
+        
         public bool IsSurveyVisible
         {
             get { return isSurveyVisible; }
@@ -77,18 +66,7 @@ namespace BAMApp.ViewModels
                 }
             }
         }
-        public string LoadingMessage
-        {
-            get { return loadingMessage; }
-            set
-            {
-                if (loadingMessage != value)
-                {
-                    loadingMessage = value;
-                    OnPropertyChanged("LoadingMessage");
-                }
-            }
-        }
+        
         public ICommand LogoutCommand
         {
             get
@@ -99,6 +77,18 @@ namespace BAMApp.ViewModels
                 }
 
                 return logoutCommand;
+            }
+        }
+        public ICommand TakeSurveyCommand
+        {
+            get
+            {
+                if (takeSurveyCommand == null)
+                {
+                    takeSurveyCommand = new BaseCommand(TakeSurvey);
+                }
+
+                return takeSurveyCommand;
             }
         }
         #endregion 
@@ -113,7 +103,7 @@ namespace BAMApp.ViewModels
 
         public async void FindCurrentLocation()
         {
-            await Task.Delay(2000); //to load after home screen is launched
+            await Task.Delay(1000); //to load after home screen is launched
 
             var geolocator = CrossGeolocator.Current;
 
@@ -147,20 +137,20 @@ namespace BAMApp.ViewModels
 
         public async void UpdatePosition(string coordinates)
         {
-            GooglePlaceItem item = await ServiceLocator.GooglePlacesService.GetPlacesAsync(coordinates);
+            gItem = await ServiceLocator.GooglePlacesService.GetPlacesAsync("40.759471,-111.875634");
 
-            if (item != null)
+            if (gItem != null)
             {
                 IsSurveyVisible = true;
                 Location = "You are at" +
                     Environment.NewLine +
-                    item.name +
+                    gItem.name +
                     Environment.NewLine +
 
-                    item.vicinity;
+                    gItem.vicinity;
 
-                if (item.photos != null && item.photos.Count > 0)
-                    this.Image = string.Format(Helpers.Constants.GOOGLE_PLACES_IMAGE_BASE_URL, item.photos[0].photo_reference);
+                if (gItem.photos != null && gItem.photos.Count > 0)
+                    this.Image = string.Format(Helpers.Constants.GOOGLE_PLACES_IMAGE_BASE_URL, gItem.photos[0].photo_reference);
             }
             else
             {
@@ -171,9 +161,14 @@ namespace BAMApp.ViewModels
             IsBusy = false;
         }
 
+        public async void TakeSurvey(object obj)
+        {
+            await homePage.Navigation.PushAsync(new SurveyPage(gItem));
+        }
         public async void Logout(object obj)
         {
-            bool isLoggedOut = await ServiceLocator.AzureService.Logout();
+            bool isLoggedOut = await ServiceLocator.AuthenticationService.LogoutAsync(
+                ServiceLocator.AzureService.MobileService);
 
             if (isLoggedOut)
             {

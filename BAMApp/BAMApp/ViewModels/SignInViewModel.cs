@@ -20,8 +20,6 @@ namespace BAMApp.ViewModels
         #region Fields
         private string email;
         private string password;
-        private string loadingMessage;
-        private bool isBusy = false;
 
         private SignInPage signInPage;
 
@@ -53,30 +51,6 @@ namespace BAMApp.ViewModels
                 {
                     password = value;
                     OnPropertyChanged("Password");
-                }
-            }
-        }
-        public bool IsBusy
-        {
-            get { return isBusy; }
-            set
-            {
-                if (isBusy != value)
-                {
-                    isBusy = value;
-                    OnPropertyChanged("IsBusy");
-                }
-            }
-        }
-        public string LoadingMessage
-        {
-            get { return loadingMessage; }
-            set
-            {
-                if (loadingMessage != value)
-                {
-                    loadingMessage = value;
-                    OnPropertyChanged("LoadingMessage");
                 }
             }
         }
@@ -127,11 +101,10 @@ namespace BAMApp.ViewModels
         #endregion
 
         #region Methods
-        public async void Initialize(SignInPage signInPage)
+        public void Initialize(SignInPage signInPage)
         {
             this.signInPage = signInPage;
-            Email = string.Empty;
-            Password = string.Empty;
+            Email = Password = string.Empty;
         }
 
         public async void SignIn(object obj)
@@ -145,7 +118,7 @@ namespace BAMApp.ViewModels
                 //and get user id and save in local settings for single-sign on
                 if (email != null && email.Contains("@"))
                 {
-                    BAMAppUser user = await ServiceLocator.AzureService.GetByEmail(email);
+                    BAMAppUser user = await ServiceLocator.AzureService.GetUserByEmail(email);
                     if (user != null)
                     {
                         if (user.Password == password)
@@ -184,7 +157,7 @@ namespace BAMApp.ViewModels
                 LoadingMessage = "Signing In";
                 IsBusy = true;
 
-                var user = await DependencyService.Get<IAuthentication>().LoginAsync(
+                var user = await ServiceLocator.AuthenticationService.LoginAsync(
                        ServiceLocator.AzureService.MobileService,
                        MobileServiceAuthenticationProvider.Facebook);
 

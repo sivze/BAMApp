@@ -9,8 +9,20 @@ namespace BAMApp.Services
 {
     public class ServiceLocator
     {
+        private static IAuthenticationService _authenticationService = null;
         private static IAzureService _azureService = null;
         private static IGooglePlacesService _googlePlacesService = null;
+        public static IAuthenticationService AuthenticationService
+        {
+            get
+            {
+                if (_authenticationService == null)
+                {
+                    _authenticationService = new AuthenticationService();
+                }
+                return _authenticationService;
+            }
+        }
         public static IAzureService AzureService
         {
             get

@@ -11,10 +11,11 @@
       <Image Source="{Binding Image}"
              Aspect="AspectFit"/>
       <Button Text="Take Survey now" 
-              Clicked="OnTakeSurveyClicked"
+              Command="{Binding TakeSurveyCommand}"
               IsEnabled="{Binding IsSurveyVisible}"/>
-      <Label Text="Receive 15% discount"
-             HorizontalTextAlignment="Center"/>
+      <Label Text="Take this Survey before checking out to receive 5% discount"
+             HorizontalTextAlignment="Center"
+             IsVisible="{Binding IsSurveyVisible}"/>
     </StackLayout>
     
     <!--Progress bar-->

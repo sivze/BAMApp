@@ -14,6 +14,35 @@ namespace BAMApp.ViewModels
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private bool isBusy = false;
+        private string loadingMessage;
+
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                if (isBusy != value)
+                {
+                    isBusy = value;
+                    OnPropertyChanged("IsBusy");
+                }
+            }
+        }
+
+        public string LoadingMessage
+        {
+            get { return loadingMessage; }
+            set
+            {
+                if (loadingMessage != value)
+                {
+                    loadingMessage = value;
+                    OnPropertyChanged("LoadingMessage");
+                }
+            }
+        }
+
         /// <summary>
         /// Raises this object's PropertyChanged event.
         /// </summary>

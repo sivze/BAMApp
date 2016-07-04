@@ -12,7 +12,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(Authentication))]
 namespace BAMApp.iOS.Helpers
 {
-    public class Authentication : IAuthentication
+    public class Authentication : IAuthenticationService
     {
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {

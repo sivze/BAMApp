@@ -19,10 +19,5 @@ namespace BAMApp.Views
             //vm.Initialize(this);
             //BindingContext = vm;
         }
-
-        void OnTakeSurveyClicked(object sender, EventArgs e)
-        {
-            Navigation.PushModalAsync(new NavigationPage(new SurveyPage()));
-        }
     }
 }

@@ -19,7 +19,7 @@ using BAMApp.Droid.Helpers;
 [assembly: Dependency(typeof(Authentication))]
 namespace BAMApp.Droid.Helpers
 {
-    public class Authentication : IAuthentication
+    public class Authentication : IAuthenticationService
     {
         public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {

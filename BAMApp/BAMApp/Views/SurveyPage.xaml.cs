@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BAMApp.Models;
+using BAMApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +13,14 @@ namespace BAMApp.Views
     public partial class SurveyPage : ContentPage
     {
         int stepValue = 1;
-        public SurveyPage()
+        public SurveyPage(GooglePlaceItem gItem)
         {
             InitializeComponent();
             lblRating.Text = sliderRating.Value.ToString();
+
+            SurveyViewModel vm = new SurveyViewModel(gItem);
+            vm.Initialize(this);
+            BindingContext = vm;
         }
         void OnValueChanged(object sender, EventArgs e)
         {
@@ -23,15 +29,6 @@ namespace BAMApp.Views
 
             lblRating.Text = sliderRating.Value.ToString();
         }
-        async void OnSubmitClicked(object sender, EventArgs e)
-        {
-            var accepted = await DisplayAlert("Thank you for taking this survey!",
-                                               "You've earned 15% off on all Jewelry",
-                                               "Ok", "Cancel");
-            if(accepted)
-            {
-                await Navigation.PushModalAsync(new NavigationPage(new RedeemCouponPage()));
-            }
-        }
+      
     }
 }

@@ -13,16 +13,24 @@ namespace BAMApp.Interfaces
     {
         MobileServiceClient MobileService {get;}
         Task Initialize();
+        
+        
+        //Generic
+        Task<T> GetById<T>(string id);
+        Task Add<T>(T entity);
+        Task Update<T>(T entity);
+        Task Delete<T>(T entity);
         //Task<ObservableCollection<T>> GetAll<T>();
-        Task<BAMAppUser> GetByEmail(string email);
-        Task<BAMAppUser> GetById(string id);
         //Task<SocialLoginResult> GetUserData();
         //Task Pull<T>();
-        Task Add(BAMAppUser user);
-        Task Update(BAMAppUser user);
-        Task Delete(string id);
         //Task Sync();
-        Task<bool> Logout();
+
+        //Specific
+        Task<BAMAppUser> GetUserByEmail(string email);
+        Task<Store> GetStoreByStoreName(string storeName);
+        Task<Survey> GetSurveyByStoreId(string storeId);
+        Task<SurveyResponse> GetSurveyRespnceBySurveyId(string surveyId);
+
         void ReportError(Exception ex);
     }
 }
