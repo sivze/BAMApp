@@ -137,7 +137,7 @@ namespace BAMApp.ViewModels
 
         public async void UpdatePosition(string coordinates)
         {
-            gItem = await ServiceLocator.GooglePlacesService.GetPlacesAsync("40.759471,-111.875634");
+            gItem = await ServiceLocator.GooglePlacesService.GetPlacesAsync("40.759641,-111.873064");
 
             if (gItem != null)
             {
@@ -146,7 +146,6 @@ namespace BAMApp.ViewModels
                     Environment.NewLine +
                     gItem.name +
                     Environment.NewLine +
-
                     gItem.vicinity;
 
                 if (gItem.photos != null && gItem.photos.Count > 0)

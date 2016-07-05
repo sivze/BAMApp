@@ -4,8 +4,7 @@
              x:Class="BAMApp.Views.SurveyListPage"
              Title="Survey">
   <Grid>
-    <StackLayout VerticalOptions="Center"
-                 >
+    <StackLayout VerticalOptions="Center">
       <Label Text="{Binding Location}"
              HorizontalTextAlignment="Center"/>
       <Image Source="{Binding Image}"
@@ -19,11 +18,7 @@
     </StackLayout>
     
     <!--Progress bar-->
-    <Grid BackgroundColor="Black"
-          Opacity="0.7"
-          IsVisible="{Binding IsBusy}"/>
-
-    <Grid IsVisible="{Binding IsBusy}">
+    <Grid IsVisible="{Binding IsBusy}" BackgroundColor="#80000000">
       <StackLayout VerticalOptions="Center">
 
         <ActivityIndicator IsRunning="True"

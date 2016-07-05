@@ -29,7 +29,8 @@ namespace BAMApp.Interfaces
         Task<BAMAppUser> GetUserByEmail(string email);
         Task<Store> GetStoreByStoreName(string storeName);
         Task<Survey> GetSurveyByStoreId(string storeId);
-        Task<SurveyResponse> GetSurveyRespnceBySurveyId(string surveyId);
+        Task<SurveyResponse> GetSurveyResponseBySurveyId(string surveyId);
+        Task<ObservableCollection<SurveyResponse>> GetSurveyResponsesByUserId(string userId);
 
         void ReportError(Exception ex);
     }

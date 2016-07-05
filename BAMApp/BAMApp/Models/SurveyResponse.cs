@@ -12,11 +12,17 @@ namespace BAMApp.Models
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "surveyId")]
-        public string SurveyId { get; set; }
+        [JsonProperty(PropertyName = "createdAt")]
+        public DateTime CreatedAt { get; set; }
 
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
+
+        [JsonProperty(PropertyName = "surveyId")]
+        public string SurveyId { get; set; }
+
+        [JsonProperty(PropertyName = "couponId")]
+        public string CouponId { get; set; }
 
         [JsonProperty(PropertyName = "isGreeted")]
         public bool IsGreeted { get; set; }

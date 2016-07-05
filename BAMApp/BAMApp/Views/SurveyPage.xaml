@@ -58,11 +58,9 @@
     </ScrollView>
 
     <!--Progress bar-->
-    <Grid BackgroundColor="Black"
-          Opacity="0.7"
-          IsVisible="{Binding IsBusy}"/>
 
-    <Grid IsVisible="{Binding IsBusy}">
+
+    <Grid IsVisible="{Binding IsBusy}" BackgroundColor="#80000000" >
       <StackLayout VerticalOptions="Center">
 
         <ActivityIndicator IsRunning="True"

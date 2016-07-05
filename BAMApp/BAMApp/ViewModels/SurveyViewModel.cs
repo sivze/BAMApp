@@ -13,7 +13,7 @@ namespace BAMApp.ViewModels
     public class SurveyViewModel : BaseViewModel
     {
         #region Fields
-        private string storeName;
+        private GooglePlaceItem gItem;
         private string shoppingPurpose;
         private SurveyPage surveyPage;
         private Store store;
@@ -209,7 +209,7 @@ namespace BAMApp.ViewModels
         #region Constructor
         public SurveyViewModel(GooglePlaceItem gItem)
         {
-            storeName = gItem.name;
+            this.gItem = gItem;
         }
         #endregion
 
@@ -218,7 +218,7 @@ namespace BAMApp.ViewModels
         public async void Initialize(SurveyPage surveyPage)
         {
             this.surveyPage = surveyPage;
-            this.Title = storeName + " Survey";
+            this.Title = gItem.name + " Survey";
             IsSubmittable = false;
             await PrepareSurvey();
         }
@@ -230,7 +230,7 @@ namespace BAMApp.ViewModels
                 IsBusy = true;
                 LoadingMessage = "Loading...";
 
-                store = await ServiceLocator.AzureService.GetStoreByStoreName(storeName);
+                store = await ServiceLocator.AzureService.GetStoreByStoreName(gItem.name);
                 survey = await ServiceLocator.AzureService.GetSurveyByStoreId(store.Id);
 
                 Question1 = survey.Question1;
@@ -257,6 +257,7 @@ namespace BAMApp.ViewModels
                 SurveyResponse response = new SurveyResponse
                 {
                     SurveyId = survey.Id,
+                    CouponId = survey.CouponId,
                     UserId = Helpers.Settings.UserId,
                     IsGreeted = this.IsGreeted,
                     IsStoreAppearanceOk = this.IsStoreAppearanceOk,
@@ -270,13 +271,13 @@ namespace BAMApp.ViewModels
                 IsBusy = false;
 
                 //assuming one survey per survey id
-                if (ServiceLocator.AzureService.GetSurveyRespnceBySurveyId(response.SurveyId) != null)
+                if (ServiceLocator.AzureService.GetSurveyResponseBySurveyId(response.SurveyId) != null)
                 {
                     await surveyPage.DisplayAlert("Thank you for taking this survey!",
                                                    "You've earned 5% off on your shopping",
                                                    "Ok");
 
-                    surveyPage.Navigation.InsertPageBefore(new RedeemCouponPage(), surveyPage);
+                    surveyPage.Navigation.InsertPageBefore(new CouponsPage(), surveyPage);
                     await surveyPage.Navigation.PopAsync();
                 }
                 else

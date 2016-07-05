@@ -2,24 +2,74 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BAMApp.Views.CouponsPage"
-             Title="Coupons"
-             BackgroundColor="{StaticResource ThemeBackgroundColor}">
-  
-  <StackLayout Padding="0,20,0,0">
-    
-    <ListView x:Name="listView"
-                VerticalOptions="FillAndExpand"
+             Title="Coupons">
+
+  <Grid>
+    <StackLayout Padding="10">
+
+      <ListView x:Name="listView"
+                ItemsSource="{Binding Coupons}"
+                CachingStrategy="RecycleElement"
                 SeparatorVisibility="Default"
-                SeparatorColor="{StaticResource PrimaryTextColor}"
-                ItemSelected="OnItemSelected">
-      <!--<ListView.ItemTemplate>
-        <DataTemplate>
-          <ImageCell Text="{Binding Title}"
-                     TextColor="{StaticResource PrimaryTextColor}"
-                     ImageSource="{Binding IconSource}"/>
-        </DataTemplate>
-      </ListView.ItemTemplate>-->
-    </ListView>
+                SelectedItem="{Binding SelectedCoupon, Mode=TwoWay}"
+                SeparatorColor="{StaticResource ThemeTextColor}"
+                ItemSelected="OnItemSelected"
+                RowHeight="100">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Horizontal">
+                <Image Source="{Binding CouponImage}" Aspect="AspectFill" WidthRequest="100"/>
+                <StackLayout>
+                  <Label Text="{Binding CouponName}" Style="{StaticResource ThemeText}"/>
+                  <Label Text="{Binding CreatedDate}"/>
+                  <Label Text="{Binding CouponTerms}" LineBreakMode="WordWrap"/>
+                </StackLayout>
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+
+    </StackLayout>
+
+    <!--Barcode popup-->
+    <Grid BackgroundColor="#80000000" IsVisible="{Binding IsBarcodeVisible}">
+      <Grid BackgroundColor="Black"
+            VerticalOptions="CenterAndExpand">
+
+        <StackLayout>
+          <Label Text="{Binding CouponName}"
+                   HorizontalOptions="Center"
+                   Style="{StaticResource ThemeText}"/>
+
+          <Image Source="{Binding BarcodeImage}" HeightRequest="100"/>
+
+          <Label Text="{Binding CouponTerms}"
+                           HorizontalOptions="Center"
+                           Style="{StaticResource ThemeText}"/>
+
+          <Button Text="Close"
+                  HorizontalOptions="Center"
+                  Command="{Binding CloseBarCodeCommand}"/>
+        </StackLayout>
+      </Grid>
+    </Grid>
     
-  </StackLayout>
+    <!--Progress bar-->
+
+    <Grid IsVisible="{Binding IsBusy}" BackgroundColor="#80000000">
+      <StackLayout VerticalOptions="Center">
+
+        <ActivityIndicator IsRunning="True"
+                           Color="{StaticResource ThemeBackgroundColor}"/>
+        <Label Text="{Binding LoadingMessage}"
+                 HorizontalOptions="Center"
+                 TextColor = "White"
+                 Style="{StaticResource PrimaryText}"/>
+
+      </StackLayout>
+    </Grid>
+
+  </Grid>
 </ContentPage>

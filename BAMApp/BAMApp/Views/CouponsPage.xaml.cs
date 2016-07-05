@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BAMApp.Models;
+using BAMApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +12,18 @@ namespace BAMApp.Views
 {
     public partial class CouponsPage : ContentPage
     {
+        CouponsViewModel vm;
         public CouponsPage()
         {
             InitializeComponent();
 
-            List<string> couponList = new List<string>();
-            couponList.Add("Forever 21 - 15% off all Jewellery");
-            couponList.Add("Down East Basics - BOGO free sale items");
-            couponList.Add("American eagle - 20% off shoes");
-
-            listView.ItemsSource = couponList;
+            vm = new CouponsViewModel();
+            vm.Initialize(this);
+            BindingContext = vm;
         }
         void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Navigation.PushModalAsync(new NavigationPage(new RedeemCouponPage()));
+            vm.CouponSelected((Coupon)e.SelectedItem);
         }
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Interfaces\IGooglePlacesService.cs" />
     <Compile Include="Models\BAMAppUser.cs" />
+    <Compile Include="Models\Coupon.cs" />
     <Compile Include="Models\GooglePlaceItem.cs" />
     <Compile Include="Models\GooglePlacesResponse.cs" />
     <Compile Include="Models\MasterPageItem.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Services\ServiceLocator.cs" />
     <Compile Include="ViewModels\BaseCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CouponsViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SurveyViewModel.cs" />
@@ -71,9 +73,6 @@
     </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RedeemCouponPage.xaml.cs">
-      <DependentUpon>RedeemCouponPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
@@ -150,12 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\CouponsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\RedeemCouponPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

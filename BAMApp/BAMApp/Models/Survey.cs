@@ -12,6 +12,9 @@ namespace BAMApp.Models
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
+        [JsonProperty(PropertyName = "couponId")]
+        public string CouponId { get; set; }
+
         [JsonProperty(PropertyName = "storeId")]
         public string StoreId { get; set; }
 

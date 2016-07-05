@@ -14,10 +14,6 @@ namespace BAMApp.Views
         public SurveyListPage()
         {
             InitializeComponent();
-
-            //HomeViewModel vm = ViewModelLocator.HomeViewModel;
-            //vm.Initialize(this);
-            //BindingContext = vm;
         }
     }
 }
