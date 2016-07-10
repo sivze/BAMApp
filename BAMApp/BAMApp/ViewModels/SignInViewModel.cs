@@ -25,11 +25,11 @@ namespace BAMApp.ViewModels
 
         private ICommand signInCommand;
         private ICommand signUpCommand;
-        private ICommand signUpFBCommand;
-
+        //private ICommand signUpFBCommand;
         #endregion
 
         #region Properties
+        public static Action<string> PostSuccessFacebookAction { get; set; }
         public string Email
         {
             get { return email; }
@@ -79,24 +79,44 @@ namespace BAMApp.ViewModels
                 return signUpCommand;
             }
         }
-        public ICommand SignUpFBCommand
-        {
-            get
-            {
-                if (signUpFBCommand == null)
-                {
-                    signUpFBCommand = new BaseCommand(SignUpFB);
-                }
+        //public ICommand SignUpFBCommand
+        //{
+        //    get
+        //    {
+        //        if (signUpFBCommand == null)
+        //        {
+        //            signUpFBCommand = new BaseCommand(SignUpFB);
+        //        }
 
-                return signUpFBCommand;
-            }
-        }
+        //        return signUpFBCommand;
+        //    }
+        //}
         #endregion
 
         #region Constructor
         public SignInViewModel()
         {
+            PostSuccessFacebookAction = async token =>
+            {
+                
+                Settings.AuthToken = token;
 
+                LoadingMessage = "Signing In";
+                IsBusy = true;
+
+                var fbUser = await ServiceLocator.FacebookService.GetUserInfo(token);
+
+                //the following are stored in settings to retireve when user opens user profile page
+                Settings.UserId = fbUser.id;
+                Settings.Name = fbUser.name;
+                Settings.Avatar = fbUser.picture.data.url;
+                Settings.Gender = fbUser.gender;
+                Settings.Email = fbUser.email;
+
+                await TakeToHomePage();
+
+                IsBusy = false;
+            };
         }
         #endregion
 
@@ -105,6 +125,7 @@ namespace BAMApp.ViewModels
         {
             this.signInPage = signInPage;
             Email = Password = string.Empty;
+
         }
 
         public async void SignIn(object obj)
@@ -124,6 +145,9 @@ namespace BAMApp.ViewModels
                         if (user.Password == password)
                         {
                             Settings.UserId = user.Id;
+                            //for home page master page labels (name, avatar) the following are stored in settings
+                            Settings.Avatar = user.Avatar;
+                            Settings.Name = user.Name;
                             await TakeToHomePage();
                         }
                         else
@@ -148,35 +172,37 @@ namespace BAMApp.ViewModels
         {
             await signInPage.Navigation.PushAsync(new SignUpPage());
         }
-        public async void SignUpFB(object obj)
-        {
-            if (IsBusy)
-                return;
-            try
-            {
-                LoadingMessage = "Signing In";
-                IsBusy = true;
+        //public async void SignUpFB(object obj)
+        //{
+        //    if (IsBusy)
+        //        return;
 
-                var user = await ServiceLocator.AuthenticationService.LoginAsync(
-                       ServiceLocator.AzureService.MobileService,
-                       MobileServiceAuthenticationProvider.Facebook);
+        //    //Xamarin Auth
+            
 
-                //To get facebook basic info
-                //var extraInfo = await ServiceLocator.AzureService.GetUserData();
-                //string email = extraInfo.Message.Email;
-                
-                if (Settings.IsLoggedIn)
-                    await TakeToHomePage();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("OH NO!" + ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
+        //    //Xamarin Auth
+
+        //    try
+        //    {
+        //        LoadingMessage = "Signing In";
+        //        IsBusy = true;
+
+        //        var user = await ServiceLocator.AuthenticationService.LoginAsync(
+        //               ServiceLocator.AzureService.MobileService,
+        //               MobileServiceAuthenticationProvider.Facebook);
+
+        //        if (Settings.IsLoggedIn)
+        //            await TakeToHomePage();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine("OH NO!" + ex);
+        //    }
+        //    finally
+        //    {
+        //        IsBusy = false;
+        //    }
+        //}
 
         public async Task TakeToHomePage()
         {

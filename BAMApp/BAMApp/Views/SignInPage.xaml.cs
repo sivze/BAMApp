@@ -1,11 +1,4 @@
-﻿using BAMApp.Models;
-using BAMApp.ViewModels;
-using Microsoft.WindowsAzure.MobileServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BAMApp.ViewModels;
 
 using Xamarin.Forms;
 

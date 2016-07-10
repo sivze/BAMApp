@@ -5,40 +5,44 @@
              Padding="0,20,0,0"
 			       Title="Navigation"
              Icon="hamburger.png"
-             BackgroundColor="{StaticResource ThemeColor}">
-  
+             BackgroundColor="{StaticResource ThemeColor}"
+             xmlns:bamApp="clr-namespace:BAMApp.Views;assembly=BAMApp">
+
   <ContentPage.Content>
-    <StackLayout VerticalOptions="FillAndExpand"
-                 >
-      
-      <StackLayout HorizontalOptions="CenterAndExpand"
-                   >
-        
-        <Image Source="icon.png" />
-        <Label Text="Sivakumar" 
+    <StackLayout VerticalOptions="FillAndExpand">
+      <StackLayout HorizontalOptions="CenterAndExpand">
+
+        <Image x:Name="imgAvatar"
+               Source="icon.png"
+        HeightRequest="80"
+               WidthRequest="80"/>
+        <Label Text="Unknown"
+               x:Name="lblName"
                HorizontalTextAlignment="Center"
                Style="{StaticResource ThemeText}"/>
-        <Label Text="4 coupons earned" 
-               HorizontalTextAlignment="Center"
-                Style="{StaticResource ThemeText}"/>
       </StackLayout>
-      
+
       <ListView x:Name="listView"
                 VerticalOptions="FillAndExpand"
                 SeparatorVisibility="Default"
                 SeparatorColor="{StaticResource PrimaryTextColor}"
-                BackgroundColor="{StaticResource ThemeBackgroundColor}"
-                >
+                BackgroundColor="{StaticResource ThemeBackgroundColor}">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ImageCell Text="{Binding Title}" 
-                       TextColor="{StaticResource PrimaryTextColor}" 
-                       ImageSource="{Binding IconSource}"/>
+            <ViewCell>
+              <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                <Frame Padding="5">
+                  <Image Source="{Binding IconSource}" Aspect="AspectFill"/>
+                </Frame>
+                <Label Text="{Binding Title}" Style="{StaticResource PrimaryText}" VerticalOptions="Center"/>
+              </StackLayout>
+            </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
       <Frame VerticalOptions="End">
-        <Button Text="Logout" 
+        <Button Text="Logout"
+                x:Name ="btnLogout"
                Command="{Binding LogoutCommand}"
                BackgroundColor="{StaticResource ThemeColor}"
                VerticalOptions="Center"/>

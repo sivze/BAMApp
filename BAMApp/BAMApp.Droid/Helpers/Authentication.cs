@@ -1,43 +1,39 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using BAMApp.Interfaces;
 using BAMApp.Helpers;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using BAMApp.Droid.Helpers;
+using Xamarin.Facebook.Login;
 
 [assembly: Dependency(typeof(Authentication))]
 namespace BAMApp.Droid.Helpers
 {
     public class Authentication : IAuthenticationService
     {
-        public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider)
-        {
-            try
-            {
-                Settings.LoginAttempts++;
-                var user = await client.LoginAsync(Forms.Context, provider);
-                Settings.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                Settings.UserId = user?.UserId ?? string.Empty;
-                return user;
-            }
-            catch (Exception ex)
-            {
-                
-            }
+        //public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider)
+        //{
+        //    try
+        //    {
+        //        Settings.LoginAttempts++;
 
-            return null;
-        }
+        //        //Native FB login
+        //        //this.Con
+
+        //        var user = await client.LoginAsync(Forms.Context, provider);
+        //        Settings.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+        //        Settings.UserId = user?.UserId ?? string.Empty;
+        //        return user;
+        //    }
+        //    catch (Exception ex)
+        //    {
+                
+        //    }
+
+        //    return null;
+        //}
 
         public async Task<bool> LogoutAsync(MobileServiceClient client)
         {
@@ -47,9 +43,16 @@ namespace BAMApp.Droid.Helpers
             {
                 ClearCookies();
 
-                await client.LogoutAsync();
+                //await client.LogoutAsync();
+
+                //facebook logout
+                LoginManager.Instance.LogOut();
+
                 Settings.UserId = string.Empty;
                 Settings.AuthToken = string.Empty;
+                Settings.Avatar = Constants.DEFAULT_MALE_AVATAR;
+                Settings.Name = Constants.UNKNOWN;
+
                 if (client.CurrentUser==null)
                     loggedOut = true;
 

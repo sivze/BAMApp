@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BAMApp.Views.SignInPage"
+             xmlns:bamApp="clr-namespace:BAMApp.Views;assembly=BAMApp"
              Title="Get Started">
   <ScrollView>
     <Grid>
@@ -19,13 +20,18 @@
       <StackLayout VerticalOptions="Center"
                    Padding="0,20,0,0">
 
-        <Label Text="BAM&#x0a;claim it"
+        <Label Text="BAM App"
                HorizontalTextAlignment="Center"
                VerticalOptions="Start"
                TextColor="{StaticResource ThemeTextColor}"
                FontSize="{StaticResource HugeTextSize}"
                FontAttributes="Bold"/>
-
+        <Label Text="discounts guaranteed!"
+               HorizontalTextAlignment="Center"
+                 VerticalOptions="Start"
+                 TextColor="{StaticResource ThemeTextColor}"
+                 FontSize="{StaticResource PrimaryTextSize}"
+                 FontAttributes="Italic"/>
       </StackLayout>
 
       <StackLayout VerticalOptions="End"
@@ -53,10 +59,17 @@
                 BackgroundColor="{StaticResource SecondaryColor}"
                 Command="{Binding SignUpCommand}"/>
 
-        <Button Text="Sign Up with Facebook"
+        <!--<Button Text="Sign Up with Facebook"
                 Style="{StaticResource CustomButton}"
                 BackgroundColor="{StaticResource FacebookColor}"
-                Command="{Binding SignUpFBCommand}"/>
+                Command="{Binding SignUpFBCommand}"/>-->
+        
+        <bamApp:FacebookLoginButton BackgroundColor="Navy" 
+                                    WidthRequest="240" 
+                                    Text="Facebook Login" 
+                                    TextColor="White" 
+                                    HorizontalOptions="Center"/>
+        
       </StackLayout>
 
       <Grid Grid.RowSpan="2" BackgroundColor="#80000000" IsVisible="{Binding IsBusy}">

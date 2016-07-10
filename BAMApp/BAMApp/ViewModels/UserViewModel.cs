@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -24,6 +25,7 @@ namespace BAMApp.ViewModels
         private int genderIndex = -1;
         private string gender;
         private string avatar;
+        private bool isDisableControls = false;
         private DateTime birthday;
 
         private SignUpPage signUpPage;
@@ -152,7 +154,18 @@ namespace BAMApp.ViewModels
                 }
             }
         }
- 
+        public bool IsDisableControls
+        {
+            get { return isDisableControls; }
+            set
+            {
+                if (isDisableControls != value)
+                {
+                    isDisableControls = value;
+                    OnPropertyChanged("IsFacebookUser");
+                }
+            }
+        }
         public ICommand SignUpCommand
         {
             get
@@ -216,25 +229,30 @@ namespace BAMApp.ViewModels
         {
             this.userProfilePage = page;
 
-            //need change here after getting facebook user info
-            if (string.IsNullOrEmpty(Settings.AuthToken)) 
+            //disable controls if facebook user
+            IsDisableControls = !Settings.IsFacebookUser;
+
+            if (Settings.IsFacebookUser)
             {
+                Avatar = Settings.Avatar;
+                Name = Settings.Name;
+                GenderIndex = Settings.Gender.ToLower() == Constants.MALE ? 0 : 1;
+                Email = Settings.Email;
+            }
+            else
+            {
+                //BAMApp User
                 IsBusy = true;
                 LoadingMessage = "Loading...";
 
                 BAMAppUser user = await ServiceLocator.AzureService.GetById<BAMAppUser>(Settings.UserId);
                 Avatar = user.Avatar;
                 Name = user.Name;
-                GenderIndex = user.Gender == Constants.MALE ? 0 : 1;
+                GenderIndex = user.Gender.ToLower() == Constants.MALE ? 0 : 1;
                 Email = user.Email;
                 Birthday = user.Birthday;
                 PhoneNumber = user.PhoneNumber;
                 ZipCode = user.ZipCode;
-            }
-            else
-            {
-                await page.DisplayAlert("Sorry", "No access for Facebook User", "Go Back");
-                await page.Navigation.PopAsync();
             }
 
             IsBusy = false;
@@ -246,7 +264,6 @@ namespace BAMApp.ViewModels
                 {
                     Name = name,
                     Email = email,
-                    Password = password,
                     Avatar = gender.Equals(Constants.MALE) ? Constants.DEFAULT_MALE_AVATAR :
                                                              Constants.DEFAULT_FEMALE_AVATAR,
                     PhoneNumber = phoneNumber,
@@ -261,6 +278,8 @@ namespace BAMApp.ViewModels
             IsBusy = true;
             LoadingMessage = "Creating Account...";
 
+            Regex regex = new Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20}$");
+
             if (
                 string.IsNullOrEmpty(name) ||
                 string.IsNullOrEmpty(email) ||
@@ -272,13 +291,19 @@ namespace BAMApp.ViewModels
             {
                 await signUpPage.DisplayAlert("Error", "Fields with * cannot be empty", "Ok");
             }
+            else if (!regex.Match(password).Success)
+            {
+                await signUpPage.DisplayAlert("Error",
+                    "Passwords should be 6 to 20 chars long and should be a combination of numbers, small and capital letters",
+                    "Ok");
+            }
             else if (!password.Equals(confirmPassword))
             {
                 await signUpPage.DisplayAlert("Error", "Passwords doesn't match", "Ok");
             }
             else
             {
-                
+
                 //Check if email id already exists
                 if (await ServiceLocator.AzureService.GetUserByEmail(email) != null)
                 {
@@ -289,7 +314,7 @@ namespace BAMApp.ViewModels
 
                 //Create BAMPppUser Object
                 BAMAppUser user = CreateUserInstance();
-
+                user.Password = Password;
                 await ServiceLocator.AzureService.Add(user);
 
                 //if inserted successfully navigate
@@ -298,6 +323,8 @@ namespace BAMApp.ViewModels
                 {
                     //save userID and user info to local settings
                     Settings.UserId = savedUser.Id;
+                    Settings.Avatar = user.Avatar;
+                    Settings.Name = user.Name;
 
                     //remove  sign up page from navigation stack
                     signUpPage.Navigation.InsertPageBefore(new HomePage(), signUpPage.Navigation.NavigationStack.First());
@@ -308,14 +335,18 @@ namespace BAMApp.ViewModels
             IsBusy = false;
         }
 
-        
+
         public async void Update(object obj)
         {
             IsBusy = true;
             LoadingMessage = "Updating...";
 
             BAMAppUser user = CreateUserInstance();
-            user.Id = Settings.UserId;
+
+            var originalUser = await ServiceLocator.AzureService.GetById<BAMAppUser>(Settings.UserId);
+            user.Id = originalUser.Id;
+            user.Password = originalUser.Password;
+            
 
             await ServiceLocator.AzureService.Update(user);
             Initialize(userProfilePage);
@@ -332,7 +363,7 @@ namespace BAMApp.ViewModels
 
                 BAMAppUser user = await ServiceLocator.AzureService.GetById<BAMAppUser>(Settings.UserId);
                 await ServiceLocator.AzureService.Delete(user);
-                
+
                 await ServiceLocator.AuthenticationService.LogoutAsync(
                 ServiceLocator.AzureService.MobileService);
 
@@ -344,6 +375,7 @@ namespace BAMApp.ViewModels
         }
         public async void StopNotifications(object obj)
         {
+
         }
         #endregion
     }

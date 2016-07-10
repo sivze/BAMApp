@@ -41,26 +41,5 @@ namespace BAMApp.Models
         [JsonProperty(PropertyName = "os")]
         public string OS { get; set; }
 
-        //public BAMAppUser CreateInstance(
-        //    string name,
-        //    string email,
-        //    string password,
-        //    string avatar,
-        //    string phoneNumber,
-        //    string zipCode,
-        //    string gender,
-        //    DateTime birthday)
-        //{
-        //    Name = name;
-        //    Email = email;
-        //    Password = password;
-        //    Avatar = avatar;
-        //    PhoneNumber = phoneNumber;
-        //    ZipCode = zipCode;
-        //    Gender = gender;
-        //    Birthday = birthday;
-        //    OS = Device.OS.ToString();
-        //    return this;
-        //}
     }
 }

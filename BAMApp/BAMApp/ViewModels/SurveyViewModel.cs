@@ -155,11 +155,13 @@ namespace BAMApp.ViewModels
                 {
                     purposeOfShoppingIndex = value;
                     if (value == 0)
-                        shoppingPurpose = "Window Shopping";
+                        shoppingPurpose = "Grocery";
                     else if (value == 1)
-                        shoppingPurpose = "Gift";
+                        shoppingPurpose = "Clothing";
                     else if (value == 2)
-                        shoppingPurpose = "Instagram";
+                        shoppingPurpose = "Jewellery";
+                    else if (value == 2)
+                        shoppingPurpose = "Window Shopping";
 
                     if (value != -1)
                         IsSubmittable = true;
@@ -274,7 +276,7 @@ namespace BAMApp.ViewModels
                 if (ServiceLocator.AzureService.GetSurveyResponseBySurveyId(response.SurveyId) != null)
                 {
                     await surveyPage.DisplayAlert("Thank you for taking this survey!",
-                                                   "You've earned 5% off on your shopping",
+                                                   "Show the barcode while checking out",
                                                    "Ok");
 
                     surveyPage.Navigation.InsertPageBefore(new CouponsPage(), surveyPage);

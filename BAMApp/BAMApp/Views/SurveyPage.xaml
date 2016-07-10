@@ -37,9 +37,10 @@
         <Picker Title="Purpose"
                 SelectedIndex="{Binding PurposeOfShoppingIndex, Mode=TwoWay}">
           <Picker.Items>
-            <x:String>Window shopping </x:String>
-            <x:String>Gift</x:String>
-            <x:String>Instagram</x:String>
+            <x:String>Grocery</x:String>
+            <x:String>Clothing</x:String>
+            <x:String>Jewellery</x:String>
+            <x:String>Window Shopping</x:String>
           </Picker.Items>
         </Picker>
 

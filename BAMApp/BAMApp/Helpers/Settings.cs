@@ -22,17 +22,23 @@ namespace BAMApp.Helpers
 
         #region Setting Constants
 
+        const string HashCodeKey = "hashcodekey";
+        static readonly string HashCodeDefault = string.Empty;
+
         const string UserIdKey = "userid";
         static readonly string UserIdDefault = string.Empty;
 
         const string AuthTokenKey = "authtoken";
         static readonly string AuthTokenDefault = string.Empty;
 
-        //const string NameKey = "name";
-        //static readonly string NameDefault = string.Empty;
+        const string NameKey = "name";
+        static readonly string NameDefault = Constants.UNKNOWN;
 
-        //const string EmailKey = "email";
-        //static readonly string EmailDefault = string.Empty;
+        const string AvatarKey = "avatar";
+        static readonly string AvatarDefault = Constants.DEFAULT_MALE_AVATAR;
+
+        const string EmailKey = "email";
+        static readonly string EmailDefault = string.Empty;
 
         //const string PhoneNumberKey = "phonenumber";
         //static readonly string PhoneNumberDefault = string.Empty;
@@ -40,8 +46,8 @@ namespace BAMApp.Helpers
         //const string ZipCodeKey = "zipcode";
         //static readonly string ZipCodeDefault = string.Empty;
 
-        //const string GenderKey = "gender";
-        //static readonly string GenderDefault = string.Empty;
+        const string GenderKey = "gender";
+        static readonly string GenderDefault = string.Empty;
 
         //const string BirthdayKey = "Birthday";
         //static readonly DateTime BirthdayDefault = DateTime.Now.AddYears(-18);
@@ -60,6 +66,17 @@ namespace BAMApp.Helpers
 
         #endregion
 
+        public static string HashCode
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(HashCodeKey, HashCodeDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(HashCodeKey, value);
+            }
+        }
 
         public static string UserId
         {
@@ -83,28 +100,39 @@ namespace BAMApp.Helpers
                 AppSettings.AddOrUpdateValue<string>(AuthTokenKey, value);
             }
         }
-        //public static string Name
-        //{
-        //    get
-        //    {
-        //        return AppSettings.GetValueOrDefault<string>(NameKey, NameDefault);
-        //    }
-        //    set
-        //    {
-        //        AppSettings.AddOrUpdateValue<string>(NameKey, value);
-        //    }
-        //}
-        //public static string Email
-        //{
-        //    get
-        //    {
-        //        return AppSettings.GetValueOrDefault<string>(EmailKey, EmailDefault);
-        //    }
-        //    set
-        //    {
-        //        AppSettings.AddOrUpdateValue<string>(EmailKey, value);
-        //    }
-        //}
+        public static string Name
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(NameKey, NameDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(NameKey, value);
+            }
+        }
+        public static string Avatar
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(AvatarKey, AvatarDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(AvatarKey, value);
+            }
+        }
+        public static string Email
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(EmailKey, EmailDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(EmailKey, value);
+            }
+        }
         //public static string PhoneNumber
         //{
         //    get
@@ -127,17 +155,17 @@ namespace BAMApp.Helpers
         //        AppSettings.AddOrUpdateValue<string>(ZipCodeKey, value);
         //    }
         //}
-        //public static string Gender
-        //{
-        //    get
-        //    {
-        //        return AppSettings.GetValueOrDefault<string>(GenderKey, GenderDefault);
-        //    }
-        //    set
-        //    {
-        //        AppSettings.AddOrUpdateValue<string>(GenderKey, value);
-        //    }
-        //}
+        public static string Gender
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(GenderKey, GenderDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(GenderKey, value);
+            }
+        }
         //public static DateTime Birthday
         //{
         //    get
@@ -192,5 +220,6 @@ namespace BAMApp.Helpers
         //    }
         //}
         public static bool IsLoggedIn { get { return !string.IsNullOrWhiteSpace(UserId); } }
+        public static bool IsFacebookUser { get { return !string.IsNullOrWhiteSpace(AuthToken); } }
     }
 }

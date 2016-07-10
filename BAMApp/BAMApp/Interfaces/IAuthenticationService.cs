@@ -9,7 +9,7 @@ namespace BAMApp.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider);
+        //Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider);
         Task<bool> LogoutAsync(MobileServiceClient client);
         void ClearCookies();
     }

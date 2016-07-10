@@ -39,13 +39,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BooleanConverter.cs" />
-    <Compile Include="Helpers\Common.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Interfaces\IFacebookService.cs" />
     <Compile Include="Interfaces\IGooglePlacesService.cs" />
     <Compile Include="Models\BAMAppUser.cs" />
     <Compile Include="Models\Coupon.cs" />
+    <Compile Include="Models\FacebookUser.cs" />
     <Compile Include="Models\GooglePlaceItem.cs" />
     <Compile Include="Models\GooglePlacesResponse.cs" />
     <Compile Include="Models\MasterPageItem.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Views\CouponsPage.xaml.cs">
       <DependentUpon>CouponsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FacebookLoginButton.cs" />
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -98,7 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="Libraries\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\HomePage.xaml">

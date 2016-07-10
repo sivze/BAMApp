@@ -1,11 +1,4 @@
-﻿using BAMApp.Services;
-using BAMApp.ViewModels;
-using BAMApp.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BAMApp.Views;
 
 using Xamarin.Forms;
 
@@ -20,7 +13,7 @@ namespace BAMApp
 
             MainPage = new NavigationPage(new SplashScreen());
         }
-
+        
         protected override void OnStart()
         {
             // Handle when your app starts

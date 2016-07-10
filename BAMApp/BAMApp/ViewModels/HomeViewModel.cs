@@ -5,6 +5,7 @@ using BAMApp.Views;
 using Plugin.Geolocator;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -53,7 +54,7 @@ namespace BAMApp.ViewModels
                 }
             }
         }
-        
+
         public bool IsSurveyVisible
         {
             get { return isSurveyVisible; }
@@ -66,7 +67,7 @@ namespace BAMApp.ViewModels
                 }
             }
         }
-        
+
         public ICommand LogoutCommand
         {
             get
@@ -103,61 +104,81 @@ namespace BAMApp.ViewModels
 
         public async void FindCurrentLocation()
         {
-            await Task.Delay(1000); //to load after home screen is launched
-
-            var geolocator = CrossGeolocator.Current;
-
-            if (!geolocator.IsListening)
-                await geolocator.StartListeningAsync(5000, 100);
-
-            CrossGeolocator.Current.PositionChanged += (sender, e) => {
-
-                IsBusy = true;
-
-                LoadingMessage = "Getting Current Location" +
-                    Environment.NewLine +
-                    "and" +
-                    Environment.NewLine +
-                    "nearest store...";
-
-                var position = e.Position;
-
-                string coordinates = position.Latitude +","+ position.Longitude;
-
-                UpdatePosition(coordinates);
-            };
-
-            if (!geolocator.IsGeolocationEnabled)
+            try
             {
-                await homePage.DisplayAlert("Attention", "Location Settings Turned Off", "Turn On");
-                //navigate to android location settings menu
+                var geolocator = CrossGeolocator.Current;
+
+                //Parameters
+                // 5000 - The minimum time (in miliseconds) the system will wait until checking if the location changed
+                // 100 - The minimum distance (in meters) traveled until you will be notified
+                if (!geolocator.IsListening)
+                {
+                    if (!geolocator.IsGeolocationEnabled)
+                    {
+                        await homePage.DisplayAlert("Attention", "Location Settings Turned Off", "Turn On");
+                        MessagingCenter.Send(homePage, Helpers.Constants.GPSEnableMessage);
+                    }
+                    else
+                    {
+                        IsBusy = true;
+                        LoadingMessage = "Gettings current location";
+
+                        var position = await CrossGeolocator.Current.GetPositionAsync(5000);
+                        await UpdatePosition(position);
+                    }
+                    await geolocator.StartListeningAsync(5000, 100);
+                }
+
+                CrossGeolocator.Current.PositionChanged += async (sender, e) =>
+                {
+                    IsBusy = true;
+                    LoadingMessage = "Gettings current location";
+
+                    await UpdatePosition(e.Position);
+                };
             }
-            
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                IsBusy = false;
+            }
         }
 
-        public async void UpdatePosition(string coordinates)
+        public async Task UpdatePosition(Plugin.Geolocator.Abstractions.Position position)
         {
-            gItem = await ServiceLocator.GooglePlacesService.GetPlacesAsync("40.759641,-111.873064");
-
-            if (gItem != null)
+            try
             {
-                IsSurveyVisible = true;
-                Location = "You are at" +
-                    Environment.NewLine +
-                    gItem.name +
-                    Environment.NewLine +
-                    gItem.vicinity;
+                LoadingMessage = "Gettings nearest store";
+                string coordinates = position.Latitude + "," + position.Longitude;
 
-                if (gItem.photos != null && gItem.photos.Count > 0)
-                    this.Image = string.Format(Helpers.Constants.GOOGLE_PLACES_IMAGE_BASE_URL, gItem.photos[0].photo_reference);
+                //hardcoded cordinates for demo purpose, change it to "coordinates"
+                gItem = await ServiceLocator.GooglePlacesService.GetPlacesAsync("40.76875440000001,-111.8907201");
+
+                if (gItem != null)
+                {
+                    IsSurveyVisible = true;
+                    Location = "You are at" +
+                        Environment.NewLine +
+                        gItem.name +
+                        Environment.NewLine +
+                        gItem.vicinity;
+
+                    if (gItem.photos != null && gItem.photos.Count > 0)
+                        this.Image = string.Format(Helpers.Constants.GOOGLE_PLACES_IMAGE_BASE_URL, gItem.photos[0].photo_reference);
+                }
+                else
+                {
+                    Location = "No stores nearby offer discounts " + coordinates;
+                    IsSurveyVisible = false;
+                }
+
+                IsBusy = false;
             }
-            else
+            catch (Exception ex)
             {
-                Location = "No stores nearby offer discounts "+coordinates;
-                IsSurveyVisible = false;
+                Debug.WriteLine(ex.Message);
+                IsBusy = false;
             }
-
-            IsBusy = false;
         }
 
         public async void TakeSurvey(object obj)
@@ -166,6 +187,15 @@ namespace BAMApp.ViewModels
         }
         public async void Logout(object obj)
         {
+            IsBusy = true;
+            LoadingMessage = "Logging out";
+
+            Location = Image = string.Empty;
+            IsSurveyVisible = false;
+
+            if(CrossGeolocator.Current.IsListening)
+                await CrossGeolocator.Current.StopListeningAsync();
+
             bool isLoggedOut = await ServiceLocator.AuthenticationService.LogoutAsync(
                 ServiceLocator.AzureService.MobileService);
 
@@ -176,6 +206,8 @@ namespace BAMApp.ViewModels
             }
             else
                 await homePage.DisplayAlert("Error", "Logout failed!", "Try again");
+
+            IsBusy = false;
         }
         #endregion
     }

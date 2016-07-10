@@ -34,7 +34,6 @@ namespace BAMApp.Services
 
         public AzureService()
         {
-            //Todo - why authHandler is used?
             var handler = new AuthHandler();
 
             mobileService = new MobileServiceClient(Constants.AZURE_SERVICE_URL, handler);
@@ -51,11 +50,11 @@ namespace BAMApp.Services
                 if (!mobileService.SyncContext.IsInitialized)
                 {
 
-                    if (!string.IsNullOrWhiteSpace(Settings.AuthToken) && !string.IsNullOrWhiteSpace(Settings.UserId))
-                    {
-                        mobileService.CurrentUser = new MobileServiceUser(Settings.UserId);
-                        mobileService.CurrentUser.MobileServiceAuthenticationToken = Settings.AuthToken;
-                    }
+                    //if (!string.IsNullOrWhiteSpace(Settings.AuthToken) && !string.IsNullOrWhiteSpace(Settings.UserId))
+                    //{
+                    //    mobileService.CurrentUser = new MobileServiceUser(Settings.UserId);
+                    //    mobileService.CurrentUser.MobileServiceAuthenticationToken = Settings.AuthToken;
+                    //}
 
                     //setup our local sqlite store and intialize our table
                     //const string dbPath = "bamAppLocal.db";
@@ -82,14 +81,6 @@ namespace BAMApp.Services
         {
             try
             {
-                //await MobileService.GetTable<TodoItem>().InsertAsync(user1);
-                //if ((object)entity is BAMAppUser)
-                //    await bamAppUserTable.InsertAsync((BAMAppUser)(object)entity);
-                //else if ((object)entity is SurveyResponse)
-                //{
-                //    //get survey response table and insert
-                //}
-
                 var table = MobileService.GetTable<T>();
                 await table.InsertAsync(entity);
 
@@ -106,16 +97,8 @@ namespace BAMApp.Services
         {
             try
             {
-
                 var table = MobileService.GetTable<T>();
                 await table.UpdateAsync(entity);
-
-                //if ((object)entity is BAMAppUser)
-                //    await bamAppUserTable.UpdateAsync((BAMAppUser)(object)entity);
-                //else if ((object)entity is SurveyResponse)
-                //{
-                //    //get survey response table and update
-                //}
             }
             catch (Exception ex)
             {
@@ -335,22 +318,22 @@ namespace BAMApp.Services
 
     }
 
-    //for getting facebook user info
-    public class SocialLoginResult
-    {
-        public Message Message { get; set; }
-    }
+    //for getting facebook user info from javascript through Windows Azure Easy API
+    //public class SocialLoginResult
+    //{
+    //    public Message Message { get; set; }
+    //}
 
-    public class Message
-    {
-        public string SocialId
-        {
-            get { return string.IsNullOrEmpty(Sub) ? Id : Sub; }
-        }
+    //public class Message
+    //{
+    //    public string SocialId
+    //    {
+    //        get { return string.IsNullOrEmpty(Sub) ? Id : Sub; }
+    //    }
 
-        public string Email { get; set; }
-        public string Name { get; set; }
-        public string Sub { get; set; }
-        public string Id { get; set; }
-    }
+    //    public string Email { get; set; }
+    //    public string Name { get; set; }
+    //    public string Sub { get; set; }
+    //    public string Id { get; set; }
+    //}
 }

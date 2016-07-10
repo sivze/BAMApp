@@ -11,13 +11,13 @@ namespace BAMApp.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider)
-        {
-            var user = await DependencyService.Get<IAuthenticationService>().LoginAsync(
-                      client,
-                      provider);
-            return user;
-        }
+        //public async Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider)
+        //{
+        //    var user = await DependencyService.Get<IAuthenticationService>().LoginAsync(
+        //              client,
+        //              provider);
+        //    return user;
+        //}
 
         public async Task<bool> LogoutAsync(MobileServiceClient client)
         {

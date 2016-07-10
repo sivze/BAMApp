@@ -14,7 +14,6 @@ namespace BAMApp.Interfaces
         MobileServiceClient MobileService {get;}
         Task Initialize();
         
-        
         //Generic
         Task<T> GetById<T>(string id);
         Task Add<T>(T entity);

@@ -1,10 +1,5 @@
 ﻿using BAMApp.Models;
-using BAMApp.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
@@ -16,31 +11,26 @@ namespace BAMApp.Views
         {
             get { return listView; }
         }
-        //public Button LogoutButton
-        //{
-        //    get { return btnLogout; }
-        //}
+        
         public MasterPage()
         {
             InitializeComponent();
 
+            lblName.Text = Helpers.Settings.Name;
+            imgAvatar.Source = Helpers.Settings.Avatar;
+
             var masterPageItems = new List<MasterPageItem>();
-            //masterPageItems.Add(new MasterPageItem
-            //{
-            //    Title = "Survey",
-            //    IconSource = "todo.png",
-            //    TargetType = typeof(SurveyListPage)
-            //});
+
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Coupons",
-                IconSource = "todo.png",
+                IconSource = "coupon.png",
                 TargetType = typeof(CouponsPage)
             });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Account",
-                IconSource = "reminders.png",
+                IconSource = "userIcon.png",
                 TargetType = typeof(UserProfilePage)
             });
 

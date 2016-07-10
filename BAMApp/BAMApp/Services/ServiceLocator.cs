@@ -12,6 +12,7 @@ namespace BAMApp.Services
         private static IAuthenticationService _authenticationService = null;
         private static IAzureService _azureService = null;
         private static IGooglePlacesService _googlePlacesService = null;
+        private static IFacebookService _facebookService = null;
         public static IAuthenticationService AuthenticationService
         {
             get
@@ -43,6 +44,17 @@ namespace BAMApp.Services
                     _googlePlacesService = new GooglePlacesService();
                 }
                 return _googlePlacesService;
+            }
+        }
+        public static IFacebookService FacebookService
+        {
+            get
+            {
+                if (_facebookService == null)
+                {
+                    _facebookService = new FacebookService();
+                }
+                return _facebookService;
             }
         }
     }

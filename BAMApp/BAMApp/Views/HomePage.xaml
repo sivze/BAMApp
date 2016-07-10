@@ -9,7 +9,4 @@
   <MasterDetailPage.Detail>
     <local:SurveyListPage/>
   </MasterDetailPage.Detail>
-  
-
-
 </MasterDetailPage>

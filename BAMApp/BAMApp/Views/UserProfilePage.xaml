@@ -14,17 +14,20 @@
     <StackLayout BackgroundColor="{StaticResource ThemeColor}"
                  Padding="20">
       <Image x:Name="imgBG"
-             WidthRequest="100"
+             WidthRequest="80"
+             HeightRequest="80"
              Aspect="AspectFill"
              HorizontalOptions="Center"
              Source="{Binding Avatar}"/>
       <Entry Text="{Binding Name, Mode=TwoWay}"
              FontSize="{StaticResource BigTextSize}"
-             HorizontalTextAlignment="Center"/>
+             HorizontalTextAlignment="Center"
+             IsEnabled="{Binding IsDisableControls}"/>
 
      <Picker Title="Gender" 
                 SelectedIndex="{Binding GenderIndex, Mode=TwoWay}" 
-                HorizontalOptions="Center">
+                HorizontalOptions="Center"
+             IsEnabled="{Binding IsDisableControls}">
           <Picker.Items>
             <x:String>Male</x:String>
             <x:String>Female</x:String>
@@ -33,7 +36,8 @@
 
       <DatePicker VerticalOptions="CenterAndExpand"
                   Date="{Binding Birthday, Mode=TwoWay}"
-                  HorizontalOptions="Center">
+                  HorizontalOptions="Center"
+                  IsEnabled="{Binding IsDisableControls}">
         <DatePicker.Format>MM/dd/yyyy</DatePicker.Format>
         <DatePicker.MinimumDate>
           <sys:DateTime x:FactoryMethod="Parse">
@@ -65,7 +69,8 @@
           <Entry Text="{Binding PhoneNumber, Mode=TwoWay}"
                  Style="{StaticResource CustomEntryStyle}"
                  HorizontalOptions="FillAndExpand"
-                 Keyboard="Telephone"/>
+                 Keyboard="Telephone"
+                 IsEnabled="{Binding IsDisableControls}"/>
         </StackLayout>
 
         <StackLayout Orientation="Horizontal">
@@ -88,22 +93,27 @@
           <Entry Text="{Binding ZipCode, Mode=TwoWay}"
                  Style="{StaticResource CustomEntryStyle}"
                  HorizontalOptions="FillAndExpand"
-                 Keyboard="Numeric"/>
+                 Keyboard="Numeric"
+                 IsEnabled="{Binding IsDisableControls}"/>
         </StackLayout>
 
         <StackLayout Orientation="Horizontal"
                      HorizontalOptions="Center">
           <Button Text="Update"
                   Style="{StaticResource CustomButton}"
-          Command="{Binding UpdateCommand}"/>
+          Command="{Binding UpdateCommand}"
+                  IsEnabled="{Binding IsDisableControls}"/>
+          
           <Button Text="Delete"
                   Style="{StaticResource CustomButton}"
                   HorizontalOptions="FillAndExpand"
-        Command="{Binding DeleteCommand}"/>
+        Command="{Binding DeleteCommand}"
+                  IsEnabled="{Binding IsDisableControls}"/>
         </StackLayout>
-        <Button Text="Stop Notifications"
+        
+        <!--<Button Text="Stop Notifications"
                 Style="{StaticResource CustomButton}"
-      Command="{Binding StopNotificationsCommand}"/>
+      Command="{Binding StopNotificationsCommand}"/>-->
       </StackLayout>
     </ScrollView>
     

@@ -12,7 +12,7 @@
       <Button Text="Take Survey now" 
               Command="{Binding TakeSurveyCommand}"
               IsEnabled="{Binding IsSurveyVisible}"/>
-      <Label Text="Take this Survey before checking out to receive 5% discount"
+      <Label Text="Take this Survey before checking out to receive some discount."
              HorizontalTextAlignment="Center"
              IsVisible="{Binding IsSurveyVisible}"/>
     </StackLayout>
