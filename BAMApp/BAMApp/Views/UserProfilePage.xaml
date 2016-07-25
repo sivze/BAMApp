@@ -37,7 +37,7 @@
       <DatePicker VerticalOptions="CenterAndExpand"
                   Date="{Binding Birthday, Mode=TwoWay}"
                   HorizontalOptions="Center"
-                  IsEnabled="{Binding IsDisableControls}">
+                  IsVisible="{Binding IsDisableControls}">
         <DatePicker.Format>MM/dd/yyyy</DatePicker.Format>
         <DatePicker.MinimumDate>
           <sys:DateTime x:FactoryMethod="Parse">

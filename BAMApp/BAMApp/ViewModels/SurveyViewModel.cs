@@ -273,7 +273,7 @@ namespace BAMApp.ViewModels
                 IsBusy = false;
 
                 //assuming one survey per survey id
-                if (ServiceLocator.AzureService.GetSurveyResponseBySurveyId(response.SurveyId) != null)
+                if (await ServiceLocator.AzureService.GetSurveyResponseBySurveyId(response.SurveyId) != null)
                 {
                     await surveyPage.DisplayAlert("Thank you for taking this survey!",
                                                    "Show the barcode while checking out",
