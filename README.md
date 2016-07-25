@@ -8,14 +8,14 @@ A consumer retail survey app that pushes survey and generate coupons for every s
 		   -> Gets a Coupon
 		   -> Uses Coupon to avail discount
 
- # UI
- ## Full demo
+ # Full demo
  ![alt tag](https://github.com/sivze/BAMApp/blob/master/Screenshots/FullDemo.gif)
- ## Other screens
+ 
+ # Other screens
  https://github.com/sivze/BAMApp/tree/master/Screenshots
 
  # Technologies used
- - Microsoft ® Visual Studio 2015
+ - Microsoft Â® Visual Studio 2015
  - .NET Framework
  - Xamarin SDK
  - Android SDK
